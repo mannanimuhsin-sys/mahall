@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAHALL CENSUS - View Page</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; padding: 15px; }
+        .container { max-width: 1200px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h2 { color: #2c3e50; text-align: center; border-bottom: 2px solid #27ae60; padding-bottom: 10px; }
+        
+        .search-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #ddd; }
+        .search-grid div { display: flex; flex-direction: column; }
+        label { font-size: 12px; font-weight: bold; color: #555; margin-bottom: 5px; }
+        input, select { padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+
+        .family-block { border: 2px solid #27ae60; margin-bottom: 25px; border-radius: 8px; overflow: hidden; }
+        .family-header { background: #27ae60; color: white; padding: 10px; display: flex; justify-content: space-between; flex-wrap: wrap; }
+        
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th, td { border: 1px solid #eee; padding: 10px; text-align: left; font-size: 13px; }
+        th { background: #f4f4f4; color: #333; }
+        .no-data { text-align: center; padding: 40px; color: #888; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>EARIAL MAHALLU CENSUS - വിവരാന്വേഷണം</h2>
+
+    <div class="search-grid">
+        <div>
+            <label>പേര്</label>
+            <input type="text" id="srcName" placeholder="പേര് ടൈപ്പ് ചെയ്യുക..." onkeyup="performSearch()">
+        </div>
+        <div>
+            <label>മഹല്ല് വീട്ടുനമ്പർ</label>
+            <input type="text" id="srcHouseNo" placeholder="നമ്പർ നൽകുക..." onkeyup="performSearch()">
+        </div>
+        <div>
+            <label>ലിംഗം</label>
+            <select id="srcGender" onchange="performSearch()">
+                <option value="">എല്ലാം</option>
+                <option value="പുരുഷൻ">പുരുഷൻ</option>
+                <option value="സ്ത്രീ">സ്ത്രീ</option>
+            </select>
+        </div>
+        <div>
+            <label>വയസ്സിന് താഴെ (Age Below)</label>
+            <input type="number" id="ageBelow" placeholder="ഉദാ: 30" onkeyup="performSearch()">
+        </div>
+        <div>
+            <label>വയസ്സിന് മുകളിൽ (Age Above)</label>
+            <input type="number" id="ageAbove" placeholder="ഉദാ: 40" onkeyup="performSearch()">
+        </div>
+    </div>
+
+    <div id="resultsArea">
+        </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAoVl_v1w0LWWENZ68q7HA6PBD0HZluG9Y",
+        authDomain: "mahall-f0305.firebaseapp.com",
+        projectId: "mahall-f0305",
+        storageBucket: "mahall-f0305.firebasestorage.app",
+        messagingSenderId: "1094550689039",
+        appId: "1:1094550689039:web:98302a4c3f95cbaa005a7a"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    let allFamilies = [];
+
+    async function fetchData() {
+        const q = query(collection(db, "MahallCensusData"), orderBy("timestamp", "desc"));
+        const snap = await getDocs(q);
+        allFamilies = snap.docs.map(doc => doc.data());
+        performSearch();
+    }
+
+    window.performSearch = () => {
+        const nameVal = document.getElementById('srcName').value.toLowerCase();
+        const houseNoVal = document.getElementById('srcHouseNo').value;
+        const genderVal = document.getElementById('srcGender').value;
+        const belowLimit = parseInt(document.getElementById('ageBelow').value);
+        const aboveLimit = parseInt(document.getElementById('ageAbove').value);
+
+        const resultsArea = document.getElementById('resultsArea');
+        resultsArea.innerHTML = '';
+
+        allFamilies.forEach(family => {
+            // ഓരോ കുടുംബത്തിലെയും അംഗങ്ങളെ ഫിൽട്ടർ ചെയ്യുന്നു
+            const filteredMembers = family.members.filter(m => {
+                const matchName = m.name.toLowerCase().includes(nameVal);
+                const matchGender = genderVal === "" || m.gender === genderVal;
+                const age = parseInt(m.age);
+                const matchBelow = isNaN(belowLimit) || age < belowLimit;
+                const matchAbove = isNaN(aboveLimit) || age > aboveLimit;
+                
+                return matchName && matchGender && matchBelow && matchAbove;
+            });
+
+            // വീട്ടുനമ്പർ വെച്ച് തിരയുമ്പോൾ ആ വീട് മൊത്തമായി കാണിക്കണം
+            const matchHouse = houseNoVal === "" || (family.houseNumber && family.houseNumber.includes(houseNoVal));
+
+            if ((filteredMembers.length > 0 && houseNoVal === "") || (matchHouse && houseNoVal !== "")) {
+                let tableRows = '';
+                // വീട്ടുനമ്പർ സെർച്ച് ആണെങ്കിൽ എല്ലാവരെയും കാണിക്കും, അല്ലെങ്കിൽ ഫിൽട്ടർ ചെയ്തവരെ മാത്രം
+                const membersToDisplay = houseNoVal !== "" ? family.members : filteredMembers;
+
+                membersToDisplay.forEach(m => {
+                    tableRows += `<tr>
+                        <td>${m.no || '-'}</td>
+                        <td>${m.name}</td>
+                        <td>${m.gender}</td>
+                        <td>${m.age}</td>
+                        <td>${m.blood || ''}</td>
+                        <td>${m.job || ''}</td>
+                        <td>${m.health || ''}</td>
+                    </tr>`;
+                });
+
+                const familyHtml = `
+                    <div class="family-block">
+                        <div class="family-header">
+                            <span><b>വീട്ടുപേര്:</b> ${family.houseName}</span>
+                            <span><b>ഗൃഹനാഥൻ:</b> ${family.Name}</span>
+                            <span><b>മഹല്ല് വീട്ടുനമ്പർ:</b> ${family.houseNumber || 'ഇല്ല'}</span>
+                        </div>
+                        <div style="overflow-x:auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th><th>പേര്</th><th>ലിംഗം</th><th>വയസ്സ്</th><th>ബ്ലഡ്</th><th>ജോലി</th><th>അവസ്ഥ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>${tableRows}</tbody>
+                            </table>
+                        </div>
+                    </div>`;
+                resultsArea.insertAdjacentHTML('beforeend', familyHtml);
+            }
+        });
+
+        if(resultsArea.innerHTML === '') {
+            resultsArea.innerHTML = '<div class="no-data">വിവരങ്ങൾ ലഭ്യമല്ല.</div>';
+        }
+    }
+
+    fetchData();
+</script>
+</body>
+</html>
