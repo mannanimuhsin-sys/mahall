@@ -18,27 +18,22 @@
         
         input, select, textarea { padding: 10px; border: 1px solid #ccc; border-radius: 6px; width: 100%; box-sizing: border-box; font-size: 14px; }
         
-        /* ടേബിൾ സ്റ്റൈലുകൾ - കോളങ്ങളുടെ വിഡ്ത്ത് ക്രമീകരിച്ചത് */
         .table-container { width: 100%; overflow-x: auto; margin-top: 20px; border: 1px solid #ddd; border-radius: 8px; }
-        table { width: 100%; border-collapse: collapse; min-width: 1900px; background: #fff; table-layout: fixed; }
+        table { width: 100%; border-collapse: collapse; min-width: 2200px; background: #fff; table-layout: fixed; }
         th, td { border: 1px solid #ddd; padding: 5px; text-align: left; }
         th { background-color: var(--primary-color); color: white; font-size: 13px; padding: 10px; }
 
-        /* കോളം വിഡ്ത്ത് നിയന്ത്രണങ്ങൾ */
-        .col-id { width: 70px; }      /* അംഗത്വ നമ്പർ */
-        .col-name { width: 250px; }   /* പേര് */
-        .col-father { width: 220px; } /* പിതാവ് */
-        .col-gender { width: 120px; } /* ലിംഗം */
-        .col-age { width: 70px; }      /* വയസ്സ് */ 
-        .col-common { width: 150px; } /* മറ്റുള്ളവ */
-        .col-remove { width: 50px; }   /* ഡിലീറ്റ് ബട്ടൺ */
+        .col-id { width: 70px; }
+        .col-name { width: 250px; }
+        .col-common { width: 160px; }
+        .col-remove { width: 50px; }
 
-        td input, td select { border: none; background: transparent; }
+        td input, td select { border: none; background: transparent; width: 100%; }
+        .other-job-input { border: 1px solid #ddd !important; margin-top: 5px; display: none; background: white !important; }
 
         .btn-add { background: var(--primary-color); color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; margin-top: 15px; font-weight: bold; }
         .btn-save { background: var(--secondary-color); color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 18px; margin-top: 30px; font-weight: bold; }
         
-        /* സേവ് ചെയ്ത കുടുംബങ്ങളുടെ ലിസ്റ്റ് */
         .search-box { margin-top: 40px; padding: 20px; background: #e9ecef; border-radius: 8px; }
         .data-list { margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
         .family-card { background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
@@ -51,30 +46,43 @@
 <div class="container">
     <div class="header">
         <h1>EARIAL MAHALLU MUSLIM JAMA-ATH</h1>
-        <p>Reg.No: 361/86, Po. Muthuvadathoor,via:purameri Kozhikode (Dist), Kerala - 673503</p>
+        <p>Reg.No: 361/86, Po. Muthuvadathoor, Kozhikode, Kerala - 673503</p>
     </div>
 
     <form id="censusForm">
         <input type="hidden" id="editId">
-        <div class="section-title">മഹല്ല് / വീട് വിവരങ്ങൾ</div>
+        <div class="section-title">മഹല്ല് / വീട് വിവരങ്ങൾ (നിർബന്ധമായും പൂരിപ്പിക്കുക)</div>
         <div class="grid">
-            <input type="text" id="Name" placeholder="ഗൃഹ നാഥന്‍/നാഥ" required>
-            <input type="text" id="father" placeholder="പിതാവിന്‍റെ പേര്" required>
-            <input type="text" id="houseName" placeholder="കുടുംബ പേര് / വീട്ടുപേര്" required>
-            <input type="text" id="houseNumber" placeholder="മഹല്ല് വീട്ടുനമ്പർ">
-            <input type="text" id="place" placeholder="ഏരിയ / സ്ഥലം">
-            <input type="text" id="wardNumber" placeholder="പഞ്ചായത്ത് വാർഡ് & കെട്ടിട നമ്പർ">
-            <input type="tel" id="mobile" placeholder="മൊബൈൽ {SMS}" required>
+            <input type="text" id="Name" placeholder="ഗൃഹ നാഥന്‍/നാഥ *" required>
+            <input type="text" id="father" placeholder="പിതാവിന്‍റെ പേര് *" required>
+            <input type="text" id="houseName" placeholder="കുടുംബ പേര് / വീട്ടുപേര് *" required>
+            <input type="text" id="houseNumber" placeholder="മഹല്ല് വീട്ടുനമ്പർ *" required>
+            
+            <select id="place" required>
+                <option value="">ഏരിയ / സ്ഥലം തിരഞ്ഞെടുക്കുക *</option>
+                <option value="വണ്ണാറത്ത് ഭാഗം">വണ്ണാറത്ത് ഭാഗം</option>
+                <option value="ഒറ്റക്കണ്ടി ഭാഗം">ഒറ്റക്കണ്ടി ഭാഗം</option>
+                <option value="പള്ളി ഭാഗം">പള്ളി ഭാഗം</option>
+                <option value="കല്ലിൽ ഭാഗം">കല്ലിൽ ഭാഗം</option>
+                <option value="പുതിയടത്തിൽ ഭാഗം">പുതിയടത്തിൽ ഭാഗം</option>
+                <option value="മാലോൽ ഭാഗം">മാലോൽ ഭാഗം</option>
+                <option value="അരാംവള്ളി ഭാഗം">അരാംവള്ളി ഭാഗം</option>
+                <option value="ലക്ഷം വീട് ഭാഗം">ലക്ഷം വീട് ഭാഗം</option>
+            </select>
+
+            <input type="text" id="wardNumber" placeholder="പഞ്ചായത്ത് വാർഡ് & കെട്ടിട നമ്പർ *" required>
+            <input type="tel" id="mobile" placeholder="മൊബൈൽ {SMS} *" required>
             <input type="tel" id="whatsapp" placeholder="വാട്‌സ്ആപ്പ്">
-            <select id="veed">
-                <option value="">താമസിക്കുന്ന സ്ഥലം</option>
+            
+            <select id="veed" required>
+                <option value="">താമസിക്കുന്ന സ്ഥലം *</option>
                 <option value="സ്വന്തം">സ്വന്തം</option>
                 <option value="വാടക">വാടക</option>
                 <option value="കോളനി">കോളനി</option>
                 <option value="പുറംപോക്ക്">പുറംപോക്ക്</option>
             </select>
-            <select id="rationCard">
-                <option value="">റേഷൻ കാർഡ് വിഭാഗം</option>
+            <select id="rationCard" required>
+                <option value="">റേഷൻ കാർഡ് വിഭാഗം *</option>
                 <option value="BPL">BPL</option>
                 <option value="APL">APL</option>
                 <option value="AAY">AAY</option>
@@ -88,23 +96,21 @@
                 <thead>
                     <tr>
                         <th class="col-id">അംഗത്ത നമ്പർ</th>
-                        <th class="col-name">പേര്</th>
-                        <th class="col-father">പിതാവിന്‍റെ പേര്</th>
-                        <th class="col-gender">ലിംഗം</th>
+                        <th class="col-name">പേര് *</th>
+                        <th class="col-common">പിതാവിന്‍റെ പേര്</th>
                         <th class="col-common">ബന്ധം</th>
-                        <th class="col-common">ബ്ലഡ് ഗ്രൂപ്പ്</th>
+                        <th class="col-id">ലിംഗം</th>
                         <th class="col-common">ജനന തീയ്യതി</th>
-                        <th class="col-age">വയസ്സ്</th>
-                        <th class="col-common">മൊബൈൽ</th>
-                        <th class="col-common">ശാരീരിക അവസ്ഥ</th>
+                        <th class="col-id">വയസ്സ്</th>
                         <th class="col-common">വൈവാഹിക അവസ്ഥ</th>
-                        <th class="col-common">ജോലി</th>
                         <th class="col-common">ജോലി മേഖല</th>
-                        <th class="col-common">സ്ഥലം</th>
+                        <th class="col-common">ജോലി വിവരം</th>
+                        <th class="col-common">മൊബൈൽ</th>
+                        <th class="col-common">ബ്ലഡ് ഗ്രൂപ്പ്</th>
+                        <th class="col-common">ശാരീരിക അവസ്ഥ</th>
                         <th class="col-common">മത വിദ്യാഭ്യാസം</th>
                         <th class="col-common">ഭൗതിക വിദ്യാഭ്യാസം</th>
-                        <th class="col-common">സ്കിൽസ്</th>
-                        <th class="col-common">യത്തീം?</th>
+                        <th class="col-id">യത്തീം?</th>
                         <th class="col-common">റീമാർക്</th>
                         <th class="col-remove">X</th>
                     </tr>
@@ -115,7 +121,7 @@
         <button type="button" class="btn-add" onclick="addMemberRow()">+ അംഗത്തെ ചേർക്കുക</button>
 
         <textarea id="remarks" placeholder="മറ്റ് വിവരങ്ങൾ (REMARKS)" style="margin-top: 20px; height: 80px;"></textarea>
-        <button type="submit" id="submitBtn" class="btn-save">വിവരങ്ങൾ ഫയർബേസിൽ സേവ് ചെയ്യുക</button>
+        <button type="submit" id="submitBtn" class="btn-save">സേവ് ചെയ്യുക</button>
     </form>
 
     <div class="search-box">
@@ -146,30 +152,55 @@
     const db = getFirestore(app);
     let families = [];
 
-    // അംഗത്തെ ചേർക്കുന്ന ഫംഗ്ഷൻ (കോളങ്ങൾ അറേഞ്ച് ചെയ്തത്)
+    window.toggleJobInput = (selectObj, rowId) => {
+        const otherInput = document.getElementById(`otherJob-${rowId}`);
+        if(selectObj.value === 'Others') {
+            otherInput.style.display = 'block';
+        } else {
+            otherInput.style.display = 'none';
+        }
+    }
+
     window.addMemberRow = function(data = null) {
         const tbody = document.getElementById('memberRows');
-        const id = Date.now() + Math.random();
+        const id = Date.now() + Math.random().toString(36).substr(2, 5);
+        
         tbody.insertAdjacentHTML('beforeend', `
             <tr id="row-${id}">
                 <td class="col-id"><input type="text" class="m-no" value="${data?data.no:''}"></td>
-                <td class="col-name"><input type="text" class="m-name" required value="${data?data.name:''}"></td>
-                <td class="col-father"><input type="text" class="m-father" value="${data?data.father:''}"></td>
-                <td class="col-gender"><select class="m-gender"><option value="പുരുഷൻ" ${data?.gender==='പുരുഷൻ'?'selected':''}>പുരുഷൻ</option><option value="സ്ത്രീ" ${data?.gender==='സ്ത്രീ'?'selected':''}>സ്ത്രീ</option></select></td>
+                <td class="col-name"><input type="text" class="m-name" required value="${data?data.name:''}" placeholder="പേര് നിർബന്ധം"></td>
+                <td class="col-common"><input type="text" class="m-father" value="${data?data.father:''}"></td>
                 <td class="col-common"><input type="text" class="m-rel" value="${data?data.relation:''}"></td>
-                <td class="col-common"><input type="text" class="m-blood" value="${data?data.blood:''}"></td>
+                <td class="col-id"><select class="m-gender"><option value="പുരുഷൻ" ${data?.gender==='പുരുഷൻ'?'selected':''}>പുരുഷൻ</option><option value="സ്ത്രീ" ${data?.gender==='സ്ത്രീ'?'selected':''}>സ്ത്രീ</option></select></td>
                 <td class="col-common"><input type="date" class="m-dob" value="${data?data.dob:''}"></td>
-                <td class="col-age"><input type="number" class="m-age" value="${data?data.age:''}"></td>
+                <td class="col-id"><input type="number" class="m-age" value="${data?data.age:''}"></td>
+                <td class="col-common">
+                    <select class="m-marital">
+                        <option value="">തിരഞ്ഞെടുക്കുക</option>
+                        <option value="സിംഗിൾ" ${data?.marital==='സിംഗിൾ'?'selected':''}>സിംഗിൾ</option>
+                        <option value="മാരീഡ്" ${data?.marital==='മാരീഡ്'?'selected':''}>മാരീഡ്</option>
+                        <option value="ഡിവോഴ്സ്" ${data?.marital==='ഡിവോഴ്സ്'?'selected':''}>ഡിവോഴ്സ്</option>
+                    </select>
+                </td>
+                <td class="col-common">
+                    <select class="m-sector" onchange="toggleJobInput(this, '${id}')">
+                        <option value="">തിരഞ്ഞെടുക്കുക</option>
+                        <option value="ഖത്തർ" ${data?.sector==='ഖത്തർ'?'selected':''}>ഖത്തർ</option>
+                        <option value="ദുബായ്" ${data?.sector==='ദുബായ്'?'selected':''}>ദുബായ്</option>
+                        <option value="ബഹ്‌റൈൻ" ${data?.sector==='ബഹ്‌റൈൻ'?'selected':''}>ബഹ്‌റൈൻ</option>
+                        <option value="കുവൈത്ത്" ${data?.sector==='കുവൈത്ത്'?'selected':''}>കുവൈത്ത്</option>
+                        <option value="ചെന്നൈ" ${data?.sector==='ചെന്നൈ'?'selected':''}>ചെന്നൈ</option>
+                        <option value="Others" ${data?.sector==='Others'?'selected':''}>Others</option>
+                    </select>
+                    <input type="text" id="otherJob-${id}" class="other-job-input" placeholder="മറ്റുള്ളവ എവിടെ?" value="${data?.otherJob || ''}" style="${data?.sector==='Others'?'display:block':''}">
+                </td>
+                <td class="col-common"><input type="text" class="m-job" placeholder="ജോലി വിവരം" value="${data?data.job:''}"></td>
                 <td class="col-common"><input type="tel" class="m-mobile" value="${data?data.mobile:''}"></td>
+                <td class="col-common"><input type="text" class="m-blood" value="${data?data.blood:''}"></td>
                 <td class="col-common"><input type="text" class="m-health" value="${data?data.health:''}"></td>
-                <td class="col-common"><input type="text" class="m-marital" value="${data?data.marital:''}"></td>
-                <td class="col-common"><input type="text" class="m-job" value="${data?data.job:''}"></td>
-                <td class="col-common"><input type="text" class="m-sector" value="${data?data.sector:''}"></td>
-                <td class="col-common"><input type="text" class="m-place" value="${data?data.place:''}"></td>
                 <td class="col-common"><input type="text" class="m-e-rel" value="${data?data.eduRel:''}"></td>
                 <td class="col-common"><input type="text" class="m-e-sec" value="${data?data.eduSec:''}"></td>
-                <td class="col-common"><input type="text" class="m-skills" value="${data?data.skills:''}"></td>
-                <td class="col-common"><select class="m-orphan"><option value="No" ${data?.orphan==='No'?'selected':''}>No</option><option value="Yes" ${data?.orphan==='Yes'?'selected':''}>Yes</option></select></td>
+                <td class="col-id"><select class="m-orphan"><option value="No" ${data?.orphan==='No'?'selected':''}>No</option><option value="Yes" ${data?.orphan==='Yes'?'selected':''}>Yes</option></select></td>
                 <td class="col-common"><input type="text" class="m-remarks" value="${data?data.remarks:''}"></td>
                 <td class="col-remove"><button type="button" class="btn-remove" onclick="document.getElementById('row-${id}').remove()">X</button></td>
             </tr>`);
@@ -189,6 +220,7 @@
             list.innerHTML += `<div class="family-card">
                 <p><b>${f.houseName}</b> (${f.houseNumber||'No No.'})</p>
                 <p>ഗൃഹനാഥൻ: ${f.Name}</p>
+                <p>സ്ഥലം: ${f.place}</p>
                 <button class="btn-edit" onclick="editFamily('${f.id}')">എഡിറ്റ്</button>
                 <button class="btn-delete" onclick="deleteFamily('${f.id}')">ഡിലീറ്റ്</button>
             </div>`;
@@ -232,36 +264,54 @@
 
         const members = [];
         document.querySelectorAll('#memberRows tr').forEach(tr => {
+            const rowId = tr.id.replace('row-', '');
             members.push({
                 no: tr.querySelector('.m-no').value,
                 name: tr.querySelector('.m-name').value,
                 father: tr.querySelector('.m-father').value,
-                gender: tr.querySelector('.m-gender').value,
                 relation: tr.querySelector('.m-rel').value,
-                blood: tr.querySelector('.m-blood').value,
+                gender: tr.querySelector('.m-gender').value,
                 dob: tr.querySelector('.m-dob').value,
                 age: tr.querySelector('.m-age').value,
-                mobile: tr.querySelector('.m-mobile').value,
-                health: tr.querySelector('.m-health').value,
                 marital: tr.querySelector('.m-marital').value,
-                job: tr.querySelector('.m-job').value,
                 sector: tr.querySelector('.m-sector').value,
-                place: tr.querySelector('.m-place').value,
+                otherJob: tr.querySelector(`#otherJob-${rowId}`).value,
+                job: tr.querySelector('.m-job').value,
+                mobile: tr.querySelector('.m-mobile').value,
+                blood: tr.querySelector('.m-blood').value,
+                health: tr.querySelector('.m-health').value,
                 eduRel: tr.querySelector('.m-e-rel').value,
                 eduSec: tr.querySelector('.m-e-sec').value,
-                skills: tr.querySelector('.m-skills').value,
                 orphan: tr.querySelector('.m-orphan').value,
                 remarks: tr.querySelector('.m-remarks').value
             });
         });
 
-        const d = { Name: document.getElementById('Name').value, father: document.getElementById('father').value, houseName: document.getElementById('houseName').value, houseNumber: document.getElementById('houseNumber').value, place: document.getElementById('place').value, ward: document.getElementById('wardNumber').value, mobile: document.getElementById('mobile').value, whatsapp: document.getElementById('whatsapp').value, veed: document.getElementById('veed').value, rationCard: document.getElementById('rationCard').value, remarks: document.getElementById('remarks').value, members: members, timestamp: new Date() };
+        const d = { 
+            Name: document.getElementById('Name').value, 
+            father: document.getElementById('father').value, 
+            houseName: document.getElementById('houseName').value, 
+            houseNumber: document.getElementById('houseNumber').value, 
+            place: document.getElementById('place').value, 
+            ward: document.getElementById('wardNumber').value, 
+            mobile: document.getElementById('mobile').value, 
+            whatsapp: document.getElementById('whatsapp').value, 
+            veed: document.getElementById('veed').value, 
+            rationCard: document.getElementById('rationCard').value, 
+            remarks: document.getElementById('remarks').value, 
+            members: members, 
+            timestamp: new Date() 
+        };
 
         try {
             if(eId) await updateDoc(doc(db, "MahallCensusData", eId), d);
             else await addDoc(collection(db, "MahallCensusData"), d);
+            alert("വിവരങ്ങൾ വിജയകരമായി സേവ് ചെയ്തു!");
             location.reload();
-        } catch (e) { btn.disabled = false; }
+        } catch (e) { 
+            alert("പിശക് സംഭവിച്ചു. ദയവായി വീണ്ടും ശ്രമിക്കുക.");
+            btn.disabled = false; 
+        }
     });
 
     loadData();
