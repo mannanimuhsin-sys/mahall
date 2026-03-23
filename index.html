@@ -140,6 +140,7 @@
     import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
+        // നിങ്ങളുടെ കോൺഫിഗറേഷൻ ഇവിടെയുണ്ട്...
         apiKey: "AIzaSyAoVl_v1w0LWWENZ68q7HA6PBD0HZluG9Y",
         authDomain: "mahall-f0305.firebaseapp.com",
         projectId: "mahall-f0305",
@@ -152,6 +153,7 @@
     const db = getFirestore(app);
     let families = [];
 
+    // ഫംഗ്ഷനുകൾ വിൻഡോയിലേക്ക് ചേർക്കുന്നു (ഇതാണ് പ്രധാനം)
     window.toggleJobInput = (selectObj, rowId) => {
         const otherInput = document.getElementById(`otherJob-${rowId}`);
         if(selectObj.value === 'Others') {
@@ -166,9 +168,9 @@
         const id = Date.now() + Math.random().toString(36).substr(2, 5);
         
         tbody.insertAdjacentHTML('beforeend', `
-            <tr id="row-${id}">
+            <tr id="row-${id}" data-id="${id}">
                 <td class="col-id"><input type="text" class="m-no" value="${data?data.no:''}"></td>
-                <td class="col-name"><input type="text" class="m-name" required value="${data?data.name:''}" placeholder="പേര് നിർബന്ധം"></td>
+                <td class="col-name"><input type="text" class="m-name" required value="${data?data.name:''}" placeholder="പേര്"></td>
                 <td class="col-common"><input type="text" class="m-father" value="${data?data.father:''}"></td>
                 <td class="col-common"><input type="text" class="m-rel" value="${data?data.relation:''}"></td>
                 <td class="col-id"><select class="m-gender"><option value="പുരുഷൻ" ${data?.gender==='പുരുഷൻ'?'selected':''}>പുരുഷൻ</option><option value="സ്ത്രീ" ${data?.gender==='സ്ത്രീ'?'selected':''}>സ്ത്രീ</option></select></td>
@@ -187,14 +189,11 @@
                         <option value="">തിരഞ്ഞെടുക്കുക</option>
                         <option value="ഖത്തർ" ${data?.sector==='ഖത്തർ'?'selected':''}>ഖത്തർ</option>
                         <option value="ദുബായ്" ${data?.sector==='ദുബായ്'?'selected':''}>ദുബായ്</option>
-                        <option value="ബഹ്‌റൈൻ" ${data?.sector==='ബഹ്‌റൈൻ'?'selected':''}>ബഹ്‌റൈൻ</option>
-                        <option value="കുവൈത്ത്" ${data?.sector==='കുവൈത്ത്'?'selected':''}>കുവൈത്ത്</option>
-                        <option value="ചെന്നൈ" ${data?.sector==='ചെന്നൈ'?'selected':''}>ചെന്നൈ</option>
                         <option value="Others" ${data?.sector==='Others'?'selected':''}>Others</option>
                     </select>
-                    <input type="text" id="otherJob-${id}" class="other-job-input" placeholder="മറ്റുള്ളവ എവിടെ?" value="${data?.otherJob || ''}" style="${data?.sector==='Others'?'display:block':''}">
+                    <input type="text" id="otherJob-${id}" class="other-job-input" placeholder="എവിടെ?" value="${data?.otherJob || ''}" style="${data?.sector==='Others'?'display:block':''}">
                 </td>
-                <td class="col-common"><input type="text" class="m-job" placeholder="ജോലി വിവരം" value="${data?data.job:''}"></td>
+                <td class="col-common"><input type="text" class="m-job" value="${data?data.job:''}"></td>
                 <td class="col-common"><input type="tel" class="m-mobile" value="${data?data.mobile:''}"></td>
                 <td class="col-common"><input type="text" class="m-blood" value="${data?data.blood:''}"></td>
                 <td class="col-common"><input type="text" class="m-health" value="${data?data.health:''}"></td>
@@ -202,7 +201,7 @@
                 <td class="col-common"><input type="text" class="m-e-sec" value="${data?data.eduSec:''}"></td>
                 <td class="col-id"><select class="m-orphan"><option value="No" ${data?.orphan==='No'?'selected':''}>No</option><option value="Yes" ${data?.orphan==='Yes'?'selected':''}>Yes</option></select></td>
                 <td class="col-common"><input type="text" class="m-remarks" value="${data?data.remarks:''}"></td>
-                <td class="col-remove"><button type="button" class="btn-remove" onclick="document.getElementById('row-${id}').remove()">X</button></td>
+                <td class="col-remove"><button type="button" onclick="document.getElementById('row-${id}').remove()">X</button></td>
             </tr>`);
     }
 
@@ -212,6 +211,7 @@
         families = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         render(families);
     }
+    window.loadData = loadData;
 
     function render(data) {
         const list = document.getElementById('familyList');
@@ -220,42 +220,36 @@
             list.innerHTML += `<div class="family-card">
                 <p><b>${f.houseName}</b> (${f.houseNumber||'No No.'})</p>
                 <p>ഗൃഹനാഥൻ: ${f.Name}</p>
-                <p>സ്ഥലം: ${f.place}</p>
                 <button class="btn-edit" onclick="editFamily('${f.id}')">എഡിറ്റ്</button>
                 <button class="btn-delete" onclick="deleteFamily('${f.id}')">ഡിലീറ്റ്</button>
             </div>`;
         });
     }
 
-    window.filter = () => {
-        const n = document.getElementById('sN').value.toLowerCase();
-        const h = document.getElementById('sH').value.toLowerCase();
-        const no = document.getElementById('sNo').value.toLowerCase();
-        render(families.filter(f => f.Name.toLowerCase().includes(n) && f.houseName.toLowerCase().includes(h) && (f.houseNumber||'').includes(no)));
+    window.deleteFamily = async (id) => { 
+        if(confirm("ഡിലീറ്റ് ചെയ്യണോ?")) { 
+            await deleteDoc(doc(db, "MahallCensusData", id)); 
+            loadData(); 
+        } 
     }
-
-    window.deleteFamily = async (id) => { if(confirm("ഡിലീറ്റ് ചെയ്യണോ?")) { await deleteDoc(doc(db, "MahallCensusData", id)); loadData(); } }
 
     window.editFamily = (id) => {
         const f = families.find(x => x.id === id);
+        if(!f) return;
         document.getElementById('editId').value = id;
         document.getElementById('Name').value = f.Name;
-        document.getElementById('father').value = f.father;
         document.getElementById('houseName').value = f.houseName;
         document.getElementById('houseNumber').value = f.houseNumber;
         document.getElementById('place').value = f.place;
         document.getElementById('wardNumber').value = f.ward;
         document.getElementById('mobile').value = f.mobile;
-        document.getElementById('whatsapp').value = f.whatsapp;
-        document.getElementById('veed').value = f.veed;
-        document.getElementById('rationCard').value = f.rationCard;
-        document.getElementById('remarks').value = f.remarks;
         document.getElementById('memberRows').innerHTML = '';
         f.members.forEach(m => addMemberRow(m));
         window.scrollTo(0,0);
-        document.getElementById('submitBtn').innerText = "മാറ്റങ്ങൾ സേവ് ചെയ്യുക";
+        document.getElementById('submitBtn').innerText = "Update Data";
     }
 
+    // ഫോം സബ്മിറ്റ് കൈകാര്യം ചെയ്യുന്നു
     document.getElementById('censusForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = document.getElementById('submitBtn');
@@ -264,7 +258,7 @@
 
         const members = [];
         document.querySelectorAll('#memberRows tr').forEach(tr => {
-            const rowId = tr.id.replace('row-', '');
+            const rowId = tr.getAttribute('data-id'); // ഇവിടെയാണ് തിരുത്തിയത്
             members.push({
                 no: tr.querySelector('.m-no').value,
                 name: tr.querySelector('.m-name').value,
@@ -275,7 +269,7 @@
                 age: tr.querySelector('.m-age').value,
                 marital: tr.querySelector('.m-marital').value,
                 sector: tr.querySelector('.m-sector').value,
-                otherJob: tr.querySelector(`#otherJob-${rowId}`).value,
+                otherJob: document.getElementById(`otherJob-${rowId}`).value, // ഇവിടെ ശ്രദ്ധിക്കുക
                 job: tr.querySelector('.m-job').value,
                 mobile: tr.querySelector('.m-mobile').value,
                 blood: tr.querySelector('.m-blood').value,
@@ -289,16 +283,11 @@
 
         const d = { 
             Name: document.getElementById('Name').value, 
-            father: document.getElementById('father').value, 
             houseName: document.getElementById('houseName').value, 
             houseNumber: document.getElementById('houseNumber').value, 
             place: document.getElementById('place').value, 
             ward: document.getElementById('wardNumber').value, 
             mobile: document.getElementById('mobile').value, 
-            whatsapp: document.getElementById('whatsapp').value, 
-            veed: document.getElementById('veed').value, 
-            rationCard: document.getElementById('rationCard').value, 
-            remarks: document.getElementById('remarks').value, 
             members: members, 
             timestamp: new Date() 
         };
@@ -306,10 +295,11 @@
         try {
             if(eId) await updateDoc(doc(db, "MahallCensusData", eId), d);
             else await addDoc(collection(db, "MahallCensusData"), d);
-            alert("വിവരങ്ങൾ വിജയകരമായി സേവ് ചെയ്തു!");
+            alert("വിവരങ്ങൾ സേവ് ചെയ്തു!");
             location.reload();
-        } catch (e) { 
-            alert("പിശക് സംഭവിച്ചു. ദയവായി വീണ്ടും ശ്രമിക്കുക.");
+        } catch (err) { 
+            console.error(err);
+            alert("Error: " + err.message);
             btn.disabled = false; 
         }
     });
