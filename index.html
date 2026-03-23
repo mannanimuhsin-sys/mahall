@@ -226,12 +226,22 @@
         });
     }
 
-    window.deleteFamily = async (id) => { 
-        if(confirm("ഡിലീറ്റ് ചെയ്യണോ?")) { 
-            await deleteDoc(doc(db, "MahallCensusData", id)); 
-            loadData(); 
+  window.deleteFamily = async (id) => { 
+    const password = prompt("ഡിലീറ്റ് ചെയ്യാൻ അഡ്മിൻ പാസ്‌വേഡ് നൽകുക:");
+    if(password === "1234") { // "1234" എന്നതിന് പകരം നിങ്ങൾക്ക് ഇഷ്ടമുള്ള പാസ്‌വേഡ് നൽകാം
+        if(confirm("ഈ കുടുംബത്തിന്റെ വിവരങ്ങൾ സ്ഥിരമായി ഡിലീറ്റ് ചെയ്യണോ?")) { 
+            try {
+                await deleteDoc(doc(db, "MahallCensusData", id)); 
+                alert("വിവരങ്ങൾ വിജയകരമായി ഒഴിവാക്കി.");
+                loadData(); 
+            } catch (err) {
+                alert("ഡിലീറ്റ് ചെയ്യുന്നതിൽ പിശക് സംഭവിച്ചു.");
+            }
         } 
+    } else {
+        alert("തെറ്റായ പാസ്‌വേഡ്!");
     }
+}
 
     window.editFamily = (id) => {
         const f = families.find(x => x.id === id);
