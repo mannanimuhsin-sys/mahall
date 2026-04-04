@@ -3,60 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAHALL CENSUS - View Page</title>
+    <title>EARIAL MAHALLU MUSLIM JAMA-ATH - View Data</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; padding: 15px; }
-        .container { max-width: 1200px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h2 { color: #2c3e50; text-align: center; border-bottom: 2px solid #27ae60; padding-bottom: 10px; }
+        :root { --primary-color: #2c3e50; --secondary-color: #27ae60; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f4f7f6; margin: 0; padding: 10px; }
+        .container { max-width: 1200px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         
-        .search-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #ddd; }
-        .search-grid div { display: flex; flex-direction: column; }
-        label { font-size: 12px; font-weight: bold; color: #555; margin-bottom: 5px; }
-        input, select { padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
-
-        .family-block { border: 2px solid #27ae60; margin-bottom: 25px; border-radius: 8px; overflow: hidden; }
-        .family-header { background: #27ae60; color: white; padding: 10px; display: flex; justify-content: space-between; flex-wrap: wrap; }
+        .header { text-align: center; border-bottom: 3px solid var(--primary-color); margin-bottom: 25px; padding-bottom: 15px; }
+        .header h1 { margin: 0; color: var(--primary-color); font-size: clamp(18px, 4vw, 24px); text-transform: uppercase; }
+        .header p { margin: 5px 0 0; color: #555; font-size: 14px; font-weight: bold; }
         
-        table { width: 100%; border-collapse: collapse; background: white; }
-        th, td { border: 1px solid #eee; padding: 10px; text-align: left; font-size: 13px; }
-        th { background: #f4f4f4; color: #333; }
-        .no-data { text-align: center; padding: 40px; color: #888; }
+        .filters { background: #e9ecef; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .filters .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; align-items: end; }
+        .filters input, .filters select { padding: 10px; border: 1px solid #ccc; border-radius: 6px; width: 100%; box-sizing: border-box; font-size: 14px; }
+        .filters button { background: var(--secondary-color); color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        
+        .data-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
+        .family-card { background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .family-card h3 { margin: 0 0 10px; color: var(--primary-color); }
+        .member { margin-bottom: 8px; padding: 5px; background: #f9f9f9; border-radius: 4px; }
+        .member strong { color: var(--secondary-color); }
+        
+        .no-data { text-align: center; padding: 50px; color: #666; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>EARIAL MAHALLU CENSUS - വിവരാന്വേഷണം</h2>
+    <div class="header">
+        <h1>EARIAL MAHALLU MUSLIM JAMA-ATH</h1>
+        <p>Reg.No: 361/86, Po. Muthuvadathoor, Kozhikode, Kerala - 673503</p>
+        <p>വിവരങ്ങൾ കാണുക</p>
+    </div>
 
-    <div class="search-grid">
-        <div>
-            <label>പേര്</label>
-            <input type="text" id="srcName" placeholder="പേര് ടൈപ്പ് ചെയ്യുക..." onkeyup="performSearch()">
-        </div>
-        <div>
-            <label>മഹല്ല് വീട്ടുനമ്പർ</label>
-            <input type="text" id="srcHouseNo" placeholder="നമ്പർ നൽകുക..." onkeyup="performSearch()">
-        </div>
-        <div>
-            <label>ലിംഗം</label>
-            <select id="srcGender" onchange="performSearch()">
+    <div class="filters">
+        <div class="grid">
+            <input type="text" id="filterHouseNumber" placeholder="വീട്ടുനമ്പർ അടിക്കുക (എല്ലാം കാണാൻ ശൂന്യമാക്കുക)">
+            <select id="filterGender">
                 <option value="">എല്ലാം</option>
-                <option value="പുരുഷൻ">പുരുഷൻ</option>
-                <option value="സ്ത്രീ">സ്ത്രീ</option>
+                <option value="പുരുഷൻ">പുരുഷൻ (ബോയ്സ്)</option>
+                <option value="സ്ത്രീ">സ്ത്രീ (ഗേൾസ്)</option>
             </select>
-        </div>
-        <div>
-            <label>വയസ്സിന് താഴെ (Age Below)</label>
-            <input type="number" id="ageBelow" placeholder="ഉദാ: 30" onkeyup="performSearch()">
-        </div>
-        <div>
-            <label>വയസ്സിന് മുകളിൽ (Age Above)</label>
-            <input type="number" id="ageAbove" placeholder="ഉദാ: 40" onkeyup="performSearch()">
+            <select id="filterAge">
+                <option value="">എല്ലാ വയസ്സും</option>
+                <option value="above40">40-ൽ മുകളിൽ</option>
+                <option value="below40">40-ൽ താഴെ</option>
+            </select>
+            <button onclick="applyFilters()">വ്യൂ</button>
         </div>
     </div>
 
-    <div id="resultsArea">
-        </div>
+    <div id="dataContainer" class="data-list">
+        <!-- Data will be loaded here -->
+    </div>
 </div>
 
 <script type="module">
@@ -76,83 +75,95 @@
     const db = getFirestore(app);
     let allFamilies = [];
 
-    async function fetchData() {
+    async function loadData() {
         const q = query(collection(db, "MahallCensusData"), orderBy("timestamp", "desc"));
         const snap = await getDocs(q);
-        allFamilies = snap.docs.map(doc => doc.data());
-        performSearch();
-    }
-
-    window.performSearch = () => {
-        const nameVal = document.getElementById('srcName').value.toLowerCase();
-        const houseNoVal = document.getElementById('srcHouseNo').value;
-        const genderVal = document.getElementById('srcGender').value;
-        const belowLimit = parseInt(document.getElementById('ageBelow').value);
-        const aboveLimit = parseInt(document.getElementById('ageAbove').value);
-
-        const resultsArea = document.getElementById('resultsArea');
-        resultsArea.innerHTML = '';
-
-        allFamilies.forEach(family => {
-            // ഓരോ കുടുംബത്തിലെയും അംഗങ്ങളെ ഫിൽട്ടർ ചെയ്യുന്നു
-            const filteredMembers = family.members.filter(m => {
-                const matchName = m.name.toLowerCase().includes(nameVal);
-                const matchGender = genderVal === "" || m.gender === genderVal;
-                const age = parseInt(m.age);
-                const matchBelow = isNaN(belowLimit) || age < belowLimit;
-                const matchAbove = isNaN(aboveLimit) || age > aboveLimit;
-                
-                return matchName && matchGender && matchBelow && matchAbove;
-            });
-
-            // വീട്ടുനമ്പർ വെച്ച് തിരയുമ്പോൾ ആ വീട് മൊത്തമായി കാണിക്കണം
-            const matchHouse = houseNoVal === "" || (family.houseNumber && family.houseNumber.includes(houseNoVal));
-
-            if ((filteredMembers.length > 0 && houseNoVal === "") || (matchHouse && houseNoVal !== "")) {
-                let tableRows = '';
-                // വീട്ടുനമ്പർ സെർച്ച് ആണെങ്കിൽ എല്ലാവരെയും കാണിക്കും, അല്ലെങ്കിൽ ഫിൽട്ടർ ചെയ്തവരെ മാത്രം
-                const membersToDisplay = houseNoVal !== "" ? family.members : filteredMembers;
-
-                membersToDisplay.forEach(m => {
-                    tableRows += `<tr>
-                        <td>${m.no || '-'}</td>
-                        <td>${m.name}</td>
-                        <td>${m.gender}</td>
-                        <td>${m.age}</td>
-                        <td>${m.blood || ''}</td>
-                        <td>${m.job || ''}</td>
-                        <td>${m.health || ''}</td>
-                    </tr>`;
-                });
-
-                const familyHtml = `
-                    <div class="family-block">
-                        <div class="family-header">
-                            <span><b>വീട്ടുപേര്:</b> ${family.houseName}</span>
-                            <span><b>ഗൃഹനാഥൻ:</b> ${family.Name}</span>
-                            <span><b>മഹല്ല് വീട്ടുനമ്പർ:</b> ${family.houseNumber || 'ഇല്ല'}</span>
-                        </div>
-                        <div style="overflow-x:auto;">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>ID</th><th>പേര്</th><th>ലിംഗം</th><th>വയസ്സ്</th><th>ബ്ലഡ്</th><th>ജോലി</th><th>അവസ്ഥ</th>
-                                    </tr>
-                                </thead>
-                                <tbody>${tableRows}</tbody>
-                            </table>
-                        </div>
-                    </div>`;
-                resultsArea.insertAdjacentHTML('beforeend', familyHtml);
-            }
+        allFamilies = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        
+        // Sort by house number numerically
+        allFamilies.sort((a, b) => {
+            const numA = parseInt(a.houseNumber) || 0;
+            const numB = parseInt(b.houseNumber) || 0;
+            return numA - numB;
         });
-
-        if(resultsArea.innerHTML === '') {
-            resultsArea.innerHTML = '<div class="no-data">വിവരങ്ങൾ ലഭ്യമല്ല.</div>';
-        }
+        
+        renderData(allFamilies);
     }
 
-    fetchData();
+    function renderData(data) {
+        const container = document.getElementById('dataContainer');
+        if (data.length === 0) {
+            container.innerHTML = '<div class="no-data">ഡാറ്റ ഇല്ല</div>';
+            return;
+        }
+        
+        container.innerHTML = '';
+        data.forEach(family => {
+            let html = `<div class="family-card">
+                <h3>${family.houseName} (${family.houseNumber || 'No Number'})</h3>
+                <p><strong>ഗൃഹനാഥൻ:</strong> ${family.Name}</p>
+                <p><strong>സ്ഥലം:</strong> ${family.place}</p>
+                <p><strong>മൊബൈൽ:</strong> ${family.mobile}</p>`;
+            
+            if (family.members && family.members.length > 0) {
+                html += '<h4>അംഗങ്ങൾ:</h4>';
+                family.members.forEach(member => {
+                    html += `<div class="member">
+                        <strong>${member.name}</strong> (${member.gender}, ${member.age} വയസ്സ്)<br>
+                        <small>ബന്ധം: ${member.relation}, ജോലി: ${member.job || 'N/A'}</small>
+                    </div>`;
+                });
+            }
+            
+            html += '</div>';
+            container.innerHTML += html;
+        });
+    }
+
+    window.applyFilters = function() {
+        const houseNumber = document.getElementById('filterHouseNumber').value.trim();
+        const gender = document.getElementById('filterGender').value;
+        const ageFilter = document.getElementById('filterAge').value;
+        
+        let filtered = [...allFamilies];
+        
+        // If house number is specified, show only that family
+        if (houseNumber) {
+            filtered = filtered.filter(f => f.houseNumber && f.houseNumber.includes(houseNumber));
+        } else {
+            // If no house number, apply gender and age filters
+            if (gender) {
+                filtered = filtered.map(family => {
+                    if (family.members) {
+                        const filteredMembers = family.members.filter(m => m.gender === gender);
+                        return { ...family, members: filteredMembers };
+                    }
+                    return family;
+                }).filter(f => f.members && f.members.length > 0);
+            }
+            
+            if (ageFilter) {
+                filtered = filtered.map(family => {
+                    if (family.members) {
+                        const filteredMembers = family.members.filter(m => {
+                            const age = parseInt(m.age);
+                            if (ageFilter === 'above40') return age > 40;
+                            if (ageFilter === 'below40') return age < 40;
+                            return true;
+                        });
+                        return { ...family, members: filteredMembers };
+                    }
+                    return family;
+                }).filter(f => f.members && f.members.length > 0);
+            }
+        }
+        
+        renderData(filtered);
+    };
+
+    // Load data on page load
+    loadData();
 </script>
 </body>
-</html>
+</html></content>
+<parameter name="filePath">d:\mahall\view.html
