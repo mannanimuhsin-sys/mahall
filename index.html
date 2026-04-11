@@ -47,7 +47,6 @@
     <div class="header">
         <h1>EARIAL MAHALLU MUSLIM JAMA-ATH</h1>
         <p>Reg.No: 361/86, Po. Muthuvadathoor, Kozhikode, Kerala - 673503</p>
-        <p><a href="view.html" style="color: var(--secondary-color); text-decoration: none; font-weight: bold;">വിവരങ്ങൾ കാണുക (View Page)</a></p>
     </div>
 
     <form id="censusForm">
@@ -127,11 +126,6 @@
 
     <div class="search-box">
         <div class="section-title">സേവ് ചെയ്ത കുടുംബങ്ങൾ</div>
-        <div class="grid" style="grid-template-columns: 1fr 1fr 1fr; margin-bottom: 15px;">
-            <input type="text" id="sN" placeholder="പേര് വെച്ച് തിരയുക..." onkeyup="filter()">
-            <input type="text" id="sH" placeholder="വീട്ടുപേര്..." onkeyup="filter()">
-            <input type="text" id="sNo" placeholder="വീട്ടുനമ്പർ..." onkeyup="filter()">
-        </div>
         <div id="familyList" class="data-list"></div>
     </div>
 </div>
@@ -141,7 +135,6 @@
     import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
-        // നിങ്ങളുടെ കോൺഫിഗറേഷൻ ഇവിടെയുണ്ട്...
         apiKey: "AIzaSyAoVl_v1w0LWWENZ68q7HA6PBD0HZluG9Y",
         authDomain: "mahall-f0305.firebaseapp.com",
         projectId: "mahall-f0305",
@@ -154,29 +147,31 @@
     const db = getFirestore(app);
     let families = [];
 
-    // ഫംഗ്ഷനുകൾ വിൻഡോയിലേക്ക് ചേർക്കുന്നു (ഇതാണ് പ്രധാനം)
     window.toggleJobInput = (selectObj, rowId) => {
         const otherInput = document.getElementById(`otherJob-${rowId}`);
-        if(selectObj.value === 'Others') {
-            otherInput.style.display = 'block';
-        } else {
-            otherInput.style.display = 'none';
+        if(otherInput) {
+            otherInput.style.display = (selectObj.value === 'Others') ? 'block' : 'none';
         }
     }
 
     window.addMemberRow = function(data = null) {
         const tbody = document.getElementById('memberRows');
-        const id = Date.now() + Math.random().toString(36).substr(2, 5);
+        const id = data?.id || Date.now() + Math.random().toString(36).substr(2, 5);
         
         tbody.insertAdjacentHTML('beforeend', `
             <tr id="row-${id}" data-id="${id}">
-                <td class="col-id"><input type="text" class="m-no" value="${data?data.no:''}"></td>
-                <td class="col-name"><input type="text" class="m-name" required value="${data?data.name:''}" placeholder="പേര്"></td>
-                <td class="col-common"><input type="text" class="m-father" value="${data?data.father:''}"></td>
-                <td class="col-common"><input type="text" class="m-rel" value="${data?data.relation:''}"></td>
-                <td class="col-id"><select class="m-gender"><option value="പുരുഷൻ" ${data?.gender==='പുരുഷൻ'?'selected':''}>പുരുഷൻ</option><option value="സ്ത്രീ" ${data?.gender==='സ്ത്രീ'?'selected':''}>സ്ത്രീ</option></select></td>
-                <td class="col-common"><input type="date" class="m-dob" value="${data?data.dob:''}"></td>
-                <td class="col-id"><input type="number" class="m-age" value="${data?data.age:''}"></td>
+                <td class="col-id"><input type="text" class="m-no" value="${data?.no || ''}"></td>
+                <td class="col-name"><input type="text" class="m-name" required value="${data?.name || ''}" placeholder="പേര്"></td>
+                <td class="col-common"><input type="text" class="m-father" value="${data?.father || ''}"></td>
+                <td class="col-common"><input type="text" class="m-rel" value="${data?.relation || ''}"></td>
+                <td class="col-id">
+                    <select class="m-gender">
+                        <option value="പുരുഷൻ" ${data?.gender==='പുരുഷൻ'?'selected':''}>പുരുഷൻ</option>
+                        <option value="സ്ത്രീ" ${data?.gender==='സ്ത്രീ'?'selected':''}>സ്ത്രീ</option>
+                    </select>
+                </td>
+                <td class="col-common"><input type="date" class="m-dob" value="${data?.dob || ''}"></td>
+                <td class="col-id"><input type="number" class="m-age" value="${data?.age || ''}"></td>
                 <td class="col-common">
                     <select class="m-marital">
                         <option value="">തിരഞ്ഞെടുക്കുക</option>
@@ -194,14 +189,14 @@
                     </select>
                     <input type="text" id="otherJob-${id}" class="other-job-input" placeholder="എവിടെ?" value="${data?.otherJob || ''}" style="${data?.sector==='Others'?'display:block':''}">
                 </td>
-                <td class="col-common"><input type="text" class="m-job" value="${data?data.job:''}"></td>
-                <td class="col-common"><input type="tel" class="m-mobile" value="${data?data.mobile:''}"></td>
-                <td class="col-common"><input type="text" class="m-blood" value="${data?data.blood:''}"></td>
-                <td class="col-common"><input type="text" class="m-health" value="${data?data.health:''}"></td>
-                <td class="col-common"><input type="text" class="m-e-rel" value="${data?data.eduRel:''}"></td>
-                <td class="col-common"><input type="text" class="m-e-sec" value="${data?data.eduSec:''}"></td>
+                <td class="col-common"><input type="text" class="m-job" value="${data?.job || ''}"></td>
+                <td class="col-common"><input type="tel" class="m-mobile" value="${data?.mobile || ''}"></td>
+                <td class="col-common"><input type="text" class="m-blood" value="${data?.blood || ''}"></td>
+                <td class="col-common"><input type="text" class="m-health" value="${data?.health || ''}"></td>
+                <td class="col-common"><input type="text" class="m-e-rel" value="${data?.eduRel || ''}"></td>
+                <td class="col-common"><input type="text" class="m-e-sec" value="${data?.eduSec || ''}"></td>
                 <td class="col-id"><select class="m-orphan"><option value="No" ${data?.orphan==='No'?'selected':''}>No</option><option value="Yes" ${data?.orphan==='Yes'?'selected':''}>Yes</option></select></td>
-                <td class="col-common"><input type="text" class="m-remarks" value="${data?data.remarks:''}"></td>
+                <td class="col-common"><input type="text" class="m-remarks" value="${data?.remarks || ''}"></td>
                 <td class="col-remove"><button type="button" onclick="document.getElementById('row-${id}').remove()">X</button></td>
             </tr>`);
     }
@@ -227,40 +222,46 @@
         });
     }
 
-  window.deleteFamily = async (id) => { 
-    const password = prompt("ഡിലീറ്റ് ചെയ്യാൻ അഡ്മിൻ പാസ്‌വേഡ് നൽകുക:");
-    if(password === "1234") { // "1234" എന്നതിന് പകരം നിങ്ങൾക്ക് ഇഷ്ടമുള്ള പാസ്‌വേഡ് നൽകാം
-        if(confirm("ഈ കുടുംബത്തിന്റെ വിവരങ്ങൾ സ്ഥിരമായി ഡിലീറ്റ് ചെയ്യണോ?")) { 
-            try {
-                await deleteDoc(doc(db, "MahallCensusData", id)); 
-                alert("വിവരങ്ങൾ വിജയകരമായി ഒഴിവാക്കി.");
-                loadData(); 
-            } catch (err) {
-                alert("ഡിലീറ്റ് ചെയ്യുന്നതിൽ പിശക് സംഭവിച്ചു.");
-            }
-        } 
-    } else {
-        alert("തെറ്റായ പാസ്‌വേഡ്!");
-    }
-}
-
     window.editFamily = (id) => {
         const f = families.find(x => x.id === id);
         if(!f) return;
+        
         document.getElementById('editId').value = id;
-        document.getElementById('Name').value = f.Name;
-        document.getElementById('houseName').value = f.houseName;
-        document.getElementById('houseNumber').value = f.houseNumber;
-        document.getElementById('place').value = f.place;
-        document.getElementById('wardNumber').value = f.ward;
-        document.getElementById('mobile').value = f.mobile;
-        document.getElementById('memberRows').innerHTML = '';
-        f.members.forEach(m => addMemberRow(m));
-        window.scrollTo(0,0);
+        document.getElementById('Name').value = f.Name || '';
+        document.getElementById('father').value = f.father || '';
+        document.getElementById('houseName').value = f.houseName || '';
+        document.getElementById('houseNumber').value = f.houseNumber || '';
+        document.getElementById('place').value = f.place || '';
+        document.getElementById('wardNumber').value = f.ward || '';
+        document.getElementById('mobile').value = f.mobile || '';
+        document.getElementById('whatsapp').value = f.whatsapp || '';
+        document.getElementById('veed').value = f.veed || '';
+        document.getElementById('rationCard').value = f.rationCard || '';
+        document.getElementById('remarks').value = f.remarks || '';
+
+        const tbody = document.getElementById('memberRows');
+        tbody.innerHTML = '';
+        if(f.members && f.members.length > 0) {
+            f.members.forEach(m => addMemberRow(m));
+        } else {
+            addMemberRow();
+        }
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         document.getElementById('submitBtn').innerText = "Update Data";
+        document.getElementById('submitBtn').style.background = "#3498db";
     }
 
-    // ഫോം സബ്മിറ്റ് കൈകാര്യം ചെയ്യുന്നു
+    window.deleteFamily = async (id) => {
+        const pass = prompt("Password?");
+        if(pass === "1234") {
+            if(confirm("Delete this family?")) {
+                await deleteDoc(doc(db, "MahallCensusData", id));
+                loadData();
+            }
+        }
+    }
+
     document.getElementById('censusForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = document.getElementById('submitBtn');
@@ -269,8 +270,9 @@
 
         const members = [];
         document.querySelectorAll('#memberRows tr').forEach(tr => {
-            const rowId = tr.getAttribute('data-id'); // ഇവിടെയാണ് തിരുത്തിയത്
+            const rowId = tr.getAttribute('data-id');
             members.push({
+                id: rowId,
                 no: tr.querySelector('.m-no').value,
                 name: tr.querySelector('.m-name').value,
                 father: tr.querySelector('.m-father').value,
@@ -280,7 +282,7 @@
                 age: tr.querySelector('.m-age').value,
                 marital: tr.querySelector('.m-marital').value,
                 sector: tr.querySelector('.m-sector').value,
-                otherJob: document.getElementById(`otherJob-${rowId}`).value, // ഇവിടെ ശ്രദ്ധിക്കുക
+                otherJob: document.getElementById(`otherJob-${rowId}`).value,
                 job: tr.querySelector('.m-job').value,
                 mobile: tr.querySelector('.m-mobile').value,
                 blood: tr.querySelector('.m-blood').value,
@@ -294,11 +296,16 @@
 
         const d = { 
             Name: document.getElementById('Name').value, 
+            father: document.getElementById('father').value,
             houseName: document.getElementById('houseName').value, 
             houseNumber: document.getElementById('houseNumber').value, 
             place: document.getElementById('place').value, 
             ward: document.getElementById('wardNumber').value, 
-            mobile: document.getElementById('mobile').value, 
+            mobile: document.getElementById('mobile').value,
+            whatsapp: document.getElementById('whatsapp').value,
+            veed: document.getElementById('veed').value,
+            rationCard: document.getElementById('rationCard').value,
+            remarks: document.getElementById('remarks').value,
             members: members, 
             timestamp: new Date() 
         };
@@ -306,10 +313,9 @@
         try {
             if(eId) await updateDoc(doc(db, "MahallCensusData", eId), d);
             else await addDoc(collection(db, "MahallCensusData"), d);
-            alert("വിവരങ്ങൾ സേവ് ചെയ്തു!");
+            alert("Success!");
             location.reload();
         } catch (err) { 
-            console.error(err);
             alert("Error: " + err.message);
             btn.disabled = false; 
         }
