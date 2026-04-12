@@ -104,31 +104,34 @@
     const db = getFirestore(app);
     let allFamilies = [];
 
-    async function fetchData() {
-        try {
-            const q = query(collection(db, "MahallCensusData"));
-            const snap = await getDocs(q);
-            
-            if (snap.empty) {
-                document.getElementById('familyDisplay').innerHTML = "<p style='text-align:center;'>വിവരങ്ങൾ ഒന്നും ലഭ്യമല്ല.</p>";
-                return;
-            }
+  async function fetchData() {
+    try {
+        // കളക്ഷൻ പേര് ശരിയാണോ എന്ന് പരിശോധിക്കുക (ഉദാഹരണത്തിന് 'MahallCensusData')
+        const q = query(collection(db, "MahallCensusData")); 
+        const snap = await getDocs(q);
+        
+        console.log("Snap empty?", snap.empty); // ബ്രൗസർ കൺസോളിൽ ഇത് ചെക്ക് ചെയ്യാം
 
-            allFamilies = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-            // വീട്ടുനമ്പർ അനുസരിച്ച് ഓർഡർ ചെയ്യുന്നു (1, 2, 3...)
-            allFamilies.sort((a, b) => {
-                return parseInt(a.houseNumber) - parseInt(b.houseNumber);
-            });
-
-            updateStats();
-            displayResults(allFamilies);
-
-        } catch (error) {
-            console.error("Error:", error);
-            document.getElementById('familyDisplay').innerHTML = "<p style='color:red;'>Error: വിവരങ്ങൾ ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല. Rules പരിശോധിക്കുക.</p>";
+        if (snap.empty) {
+            document.getElementById('familyDisplay').innerHTML = "<p style='text-align:center;'>വിവരങ്ങൾ ഒന്നും ലഭ്യമല്ല. ഡാറ്റാബേസ് ചെക്ക് ചെയ്യുക.</p>";
+            return;
         }
+
+        allFamilies = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        // ഹൗസ് നമ്പർ കൃത്യമായി സോർട്ട് ചെയ്യാൻ
+        allFamilies.sort((a, b) => {
+            return (parseInt(a.houseNumber) || 0) - (parseInt(b.houseNumber) || 0);
+        });
+
+        updateStats();
+        displayResults(allFamilies);
+
+    } catch (error) {
+        console.error("Firebase Error:", error);
+        document.getElementById('familyDisplay').innerHTML = "<p style='color:red;'>കണക്ഷൻ എറർ: " + error.message + "</p>";
     }
+}
 
     function updateStats() {
         document.getElementById('totalHouses').innerText = allFamilies.length;
