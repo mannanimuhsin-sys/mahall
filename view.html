@@ -3,28 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EARIAL MAHALLU MUSLIM JAMA-ATH - View Data</title>
+    <title>EARIAL MAHALLU - View Page</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        :root { --primary-color: #2c3e50; --secondary-color: #27ae60; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f4f7f6; margin: 0; padding: 10px; }
-        .container { max-width: 1200px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        :root { --primary: #2c3e50; --secondary: #27ae60; --light: #f4f7f6; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--light); margin: 0; padding: 10px; }
+        .container { max-width: 1100px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         
-        .header { text-align: center; border-bottom: 3px solid var(--primary-color); margin-bottom: 25px; padding-bottom: 15px; }
-        .header h1 { margin: 0; color: var(--primary-color); font-size: clamp(18px, 4vw, 24px); text-transform: uppercase; }
-        .header p { margin: 5px 0 0; color: #555; font-size: 14px; font-weight: bold; }
+        /* മഹല്ല് വിവരങ്ങൾ - ഏറ്റവും മുകളിൽ */
+        .header { text-align: center; border-bottom: 3px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px; }
+        .header h1 { margin: 0; color: var(--primary); font-size: clamp(18px, 5vw, 26px); text-transform: uppercase; }
+        .header p { margin: 5px 0 0; color: #555; font-weight: bold; font-size: 14px; }
+
+        /* സ്റ്റാറ്റിസ്റ്റിക്സ് ബോക്സുകൾ */
+        .stats-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: linear-gradient(135deg, #2c3e50, #34495e); color: white; padding: 20px; border-radius: 10px; text-align: center; }
+        .stat-card h3 { margin: 0; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-card p { margin: 10px 0 0; font-size: 32px; font-weight: bold; color: #2ecc71; }
+
+        /* സെർച്ച് ബോക്സ് */
+        .search-area { margin-bottom: 25px; position: sticky; top: 10px; z-index: 100; }
+        #searchInput { width: 100%; padding: 15px; border: 2px solid var(--primary); border-radius: 8px; font-size: 16px; outline: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+
+        /* ഫാമിലി ലിസ്റ്റ് */
+        .family-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
+        .family-card { background: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border-left: 5px solid var(--primary); }
+        .family-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); background: #f9f9f9; }
+        .family-card b { font-size: 17px; color: var(--primary); }
+        .family-card p { margin: 5px 0; font-size: 14px; color: #333; }
+
+        /* മോഡൽ സ്റ്റൈൽ */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; padding: 10px; box-sizing: border-box; }
+        .modal-content { background: white; width: 100%; max-width: 850px; margin: auto; padding: 25px; border-radius: 12px; position: relative; max-height: 90vh; overflow-y: auto; }
+        .close-btn { position: absolute; right: 20px; top: 10px; font-size: 35px; cursor: pointer; color: #e74c3c; }
+
+        /* ടേബിൾ സ്റ്റൈൽ (PDF-നായി) */
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .data-table th, .data-table td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 13px; }
+        .data-table th { background: #f4f4f4; color: var(--primary); }
+
+        .btn-download { background: #c0392b; color: white; border: none; padding: 15px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; margin-top: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; }
         
-        .filters { background: #e9ecef; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-        .filters .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; align-items: end; }
-        .filters input, .filters select { padding: 10px; border: 1px solid #ccc; border-radius: 6px; width: 100%; box-sizing: border-box; font-size: 14px; }
-        .filters button { background: var(--secondary-color); color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        
-        .data-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
-        .family-card { background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .family-card h3 { margin: 0 0 10px; color: var(--primary-color); }
-        .member { margin-bottom: 8px; padding: 5px; background: #f9f9f9; border-radius: 4px; }
-        .member strong { color: var(--secondary-color); }
-        
-        .no-data { text-align: center; padding: 50px; color: #666; }
+        @media (max-width: 600px) {
+            .stats-container { grid-template-columns: 1fr; }
+            .modal-content { padding: 15px; }
+        }
     </style>
 </head>
 <body>
@@ -33,34 +56,40 @@
     <div class="header">
         <h1>EARIAL MAHALLU MUSLIM JAMA-ATH</h1>
         <p>Reg.No: 361/86, Po. Muthuvadathoor, Kozhikode, Kerala - 673503</p>
-        <p>വിവരങ്ങൾ കാണുക</p>
     </div>
 
-    <div class="filters">
-        <div class="grid">
-            <input type="text" id="filterHouseNumber" placeholder="വീട്ടുനമ്പർ അടിക്കുക (എല്ലാം കാണാൻ ശൂന്യമാക്കുക)">
-            <select id="filterGender">
-                <option value="">എല്ലാം</option>
-                <option value="പുരുഷൻ">പുരുഷൻ (ബോയ്സ്)</option>
-                <option value="സ്ത്രീ">സ്ത്രീ (ഗേൾസ്)</option>
-            </select>
-            <select id="filterAge">
-                <option value="">എല്ലാ വയസ്സും</option>
-                <option value="above40">40-ൽ മുകളിൽ</option>
-                <option value="below40">40-ൽ താഴെ</option>
-            </select>
-            <button onclick="applyFilters()">വ്യൂ</button>
+    <div class="stats-container">
+        <div class="stat-card">
+            <h3>ആകെ വീടുകൾ</h3>
+            <p id="totalHouses">0</p>
+        </div>
+        <div class="stat-card">
+            <h3>ആകെ അംഗങ്ങൾ</h3>
+            <p id="totalMembers">0</p>
         </div>
     </div>
 
-    <div id="dataContainer" class="data-list">
-        <!-- Data will be loaded here -->
+    <div class="search-area">
+        <input type="text" id="searchInput" placeholder="മഹല്ല് വീട്ടുനമ്പർ നൽകി തിരയുക..." onkeyup="searchByHouseNo()">
+    </div>
+
+    <div id="familyDisplay" class="family-list">
+        <p style="text-align:center;">വിവരങ്ങൾ പരിശോധിക്കുന്നു...</p>
+    </div>
+</div>
+
+<div id="viewModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div id="printContent">
+            </div>
+        <button class="btn-download" onclick="generatePDF()">PDF ഡൗൺലോഡ് ചെയ്യുക</button>
     </div>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, query } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyAoVl_v1w0LWWENZ68q7HA6PBD0HZluG9Y",
@@ -75,95 +104,139 @@
     const db = getFirestore(app);
     let allFamilies = [];
 
-    async function loadData() {
-        const q = query(collection(db, "MahallCensusData"), orderBy("timestamp", "desc"));
-        const snap = await getDocs(q);
-        allFamilies = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        
-        // Sort by house number numerically
-        allFamilies.sort((a, b) => {
-            const numA = parseInt(a.houseNumber) || 0;
-            const numB = parseInt(b.houseNumber) || 0;
-            return numA - numB;
-        });
-        
-        renderData(allFamilies);
+    async function fetchData() {
+        try {
+            const q = query(collection(db, "MahallCensusData"));
+            const snap = await getDocs(q);
+            
+            if (snap.empty) {
+                document.getElementById('familyDisplay').innerHTML = "<p style='text-align:center;'>വിവരങ്ങൾ ഒന്നും ലഭ്യമല്ല.</p>";
+                return;
+            }
+
+            allFamilies = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+            // വീട്ടുനമ്പർ അനുസരിച്ച് ഓർഡർ ചെയ്യുന്നു (1, 2, 3...)
+            allFamilies.sort((a, b) => {
+                return parseInt(a.houseNumber) - parseInt(b.houseNumber);
+            });
+
+            updateStats();
+            displayResults(allFamilies);
+
+        } catch (error) {
+            console.error("Error:", error);
+            document.getElementById('familyDisplay').innerHTML = "<p style='color:red;'>Error: വിവരങ്ങൾ ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല. Rules പരിശോധിക്കുക.</p>";
+        }
     }
 
-    function renderData(data) {
-        const container = document.getElementById('dataContainer');
-        if (data.length === 0) {
-            container.innerHTML = '<div class="no-data">ഡാറ്റ ഇല്ല</div>';
-            return;
-        }
-        
+    function updateStats() {
+        document.getElementById('totalHouses').innerText = allFamilies.length;
+        let members = 0;
+        allFamilies.forEach(f => { if(f.members) members += f.members.length; });
+        document.getElementById('totalMembers').innerText = members;
+    }
+
+    function displayResults(data) {
+        const container = document.getElementById('familyDisplay');
         container.innerHTML = '';
-        data.forEach(family => {
-            let html = `<div class="family-card">
-                <h3>${family.houseName} (${family.houseNumber || 'No Number'})</h3>
-                <p><strong>ഗൃഹനാഥൻ:</strong> ${family.Name}</p>
-                <p><strong>സ്ഥലം:</strong> ${family.place}</p>
-                <p><strong>മൊബൈൽ:</strong> ${family.mobile}</p>`;
-            
-            if (family.members && family.members.length > 0) {
-                html += '<h4>അംഗങ്ങൾ:</h4>';
-                family.members.forEach(member => {
-                    html += `<div class="member">
-                        <strong>${member.name}</strong> (${member.gender}, ${member.age} വയസ്സ്)<br>
-                        <small>ബന്ധം: ${member.relation}, ജോലി: ${member.job || 'N/A'}</small>
-                    </div>`;
-                });
-            }
-            
-            html += '</div>';
-            container.innerHTML += html;
+        data.forEach(f => {
+            container.innerHTML += `
+                <div class="family-card" onclick="openDetails('${f.id}')">
+                    <b>നമ്പർ: ${f.houseNumber}</b>
+                    <p>വീട്ടുപേര്: ${f.houseName}</p>
+                    <p>ഗൃഹനാഥൻ: ${f.Name}</p>
+                    <p style="color:var(--secondary); font-size:12px;">കൂടുതൽ വിവരങ്ങൾ കാണാൻ ക്ലിക്ക് ചെയ്യുക</p>
+                </div>
+            `;
         });
     }
 
-    window.applyFilters = function() {
-        const houseNumber = document.getElementById('filterHouseNumber').value.trim();
-        const gender = document.getElementById('filterGender').value;
-        const ageFilter = document.getElementById('filterAge').value;
-        
-        let filtered = [...allFamilies];
-        
-        // If house number is specified, show only that family
-        if (houseNumber) {
-            filtered = filtered.filter(f => f.houseNumber && f.houseNumber.includes(houseNumber));
-        } else {
-            // If no house number, apply gender and age filters
-            if (gender) {
-                filtered = filtered.map(family => {
-                    if (family.members) {
-                        const filteredMembers = family.members.filter(m => m.gender === gender);
-                        return { ...family, members: filteredMembers };
-                    }
-                    return family;
-                }).filter(f => f.members && f.members.length > 0);
-            }
-            
-            if (ageFilter) {
-                filtered = filtered.map(family => {
-                    if (family.members) {
-                        const filteredMembers = family.members.filter(m => {
-                            const age = parseInt(m.age);
-                            if (ageFilter === 'above40') return age > 40;
-                            if (ageFilter === 'below40') return age < 40;
-                            return true;
-                        });
-                        return { ...family, members: filteredMembers };
-                    }
-                    return family;
-                }).filter(f => f.members && f.members.length > 0);
-            }
-        }
-        
-        renderData(filtered);
-    };
+    window.searchByHouseNo = () => {
+        const val = document.getElementById('searchInput').value.trim().toLowerCase();
+        const filtered = allFamilies.filter(f => 
+            f.houseNumber && f.houseNumber.toString().toLowerCase().includes(val)
+        );
+        displayResults(filtered);
+    }
 
-    // Load data on page load
-    loadData();
+    window.openDetails = (id) => {
+        const f = allFamilies.find(x => x.id === id);
+        const printArea = document.getElementById('printContent');
+        
+        let membersRows = '';
+        f.members.forEach((m, i) => {
+            membersRows += `
+                <tr>
+                    <td>${i+1}</td>
+                    <td>${m.name}</td>
+                    <td>${m.relation}</td>
+                    <td>${m.gender}</td>
+                    <td>${m.age}</td>
+                    <td>${m.job || '-'}</td>
+                    <td>${m.mobile || '-'}</td>
+                </tr>
+            `;
+        });
+
+        printArea.innerHTML = `
+            <div style="text-align:center; border-bottom:2px solid #2c3e50; padding-bottom:10px; margin-bottom:15px;">
+                <h2 style="margin:0; color:#2c3e50;">EARIAL MAHALLU MUSLIM JAMA-ATH</h2>
+                <p style="margin:5px 0;">കുടുംബ സെൻസസ് രേഖ</p>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:14px; margin-bottom:20px;">
+                <p><b>മഹല്ല് വീട്ടുനമ്പർ:</b> ${f.houseNumber}</p>
+                <p><b>കുടുംബ പേര്:</b> ${f.houseName}</p>
+                <p><b>ഗൃഹനാഥൻ:</b> ${f.Name}</p>
+                <p><b>പിതാവ്:</b> ${f.father || '-'}</p>
+                <p><b>വാർഡ്/കെട്ടിട നമ്പർ:</b> ${f.ward}</p>
+                <p><b>മൊബൈൽ:</b> ${f.mobile}</p>
+                <p><b>റേഷൻ കാർഡ്:</b> ${f.rationCard}</p>
+                <p><b>വീട്:</b> ${f.veed}</p>
+                <p><b>സ്ഥലം:</b> ${f.place}</p>
+            </div>
+            <h4 style="margin-bottom:10px; border-bottom:1px solid #ddd;">അംഗങ്ങളുടെ വിവരങ്ങൾ</h4>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Sl</th>
+                        <th>പേര്</th>
+                        <th>ബന്ധം</th>
+                        <th>ലിംഗം</th>
+                        <th>വയസ്സ്</th>
+                        <th>ജോലി</th>
+                        <th>മൊബൈൽ</th>
+                    </tr>
+                </thead>
+                <tbody>${membersRows}</tbody>
+            </table>
+            <p style="margin-top:15px; font-size:13px;"><b>കുറിപ്പുകൾ:</b> ${f.remarks || 'Nil'}</p>
+        `;
+        document.getElementById('viewModal').style.display = 'flex';
+    }
+
+    window.closeModal = () => {
+        document.getElementById('viewModal').style.display = 'none';
+    }
+
+    window.generatePDF = () => {
+        const element = document.getElementById('printContent');
+        const opt = {
+            margin: 10,
+            filename: 'Family_Report.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).save();
+    }
+
+    window.onclick = function(e) {
+        if (e.target.className === 'modal') closeModal();
+    }
+
+    fetchData();
 </script>
+
 </body>
-</html></content>
-<parameter name="filePath">d:\mahall\view.html
+</html>
