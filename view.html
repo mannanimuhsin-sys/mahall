@@ -267,11 +267,12 @@
         showStatus("ഡാറ്റാബേസുമായി ബന്ധിപ്പിക്കുന്നു...", "loading");
         
         try {
-            const q = query(collection(db, "MahallCensusData"));
+            const q = collection(db, "MahallCensusData"); 
             
             onSnapshot(q, (snap) => {
                 if (snap.empty) {
-                    showStatus("ഡാറ്റാബേസിൽ വിവരങ്ങൾ ഒന്നും കണ്ടെത്തിയില്ല (Empty Collection).", "error");
+                    console.log("No data found in collection");
+                    showStatus("ഡാറ്റാബേസിൽ വിവരങ്ങൾ ഒന്നും കണ്ടെത്തിയില്ല.", "error");
                     document.getElementById('familyDisplay').innerHTML = "<p style='text-align:center; grid-column: 1/-1;'>വിവരങ്ങൾ ഒന്നും ലഭ്യമല്ല. ഡാറ്റാബേസ് പരിശോധിക്കുക.</p>";
                     return;
                 }
