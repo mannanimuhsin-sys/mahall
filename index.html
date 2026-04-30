@@ -3,136 +3,332 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EARIAL MAHALLU MUSLIM JAMA-ATH Census</title>
+    <title>EARIAL MAHALLU - Data Entry</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary-color: #2c3e50; --secondary-color: #27ae60; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f4f7f6; margin: 0; padding: 10px; }
-        .container { max-width: 1200px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        
-        .header { text-align: center; border-bottom: 3px solid var(--primary-color); margin-bottom: 25px; padding-bottom: 15px; }
-        .header h1 { margin: 0; color: var(--primary-color); font-size: clamp(18px, 4vw, 24px); text-transform: uppercase; }
-        .header p { margin: 5px 0 0; color: #555; font-size: 14px; font-weight: bold; }
-        
-        .section-title { background: #eee; padding: 10px; margin-top: 20px; border-left: 5px solid var(--secondary-color); font-weight: bold; border-radius: 4px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 15px; }
-        
-        input, select, textarea { padding: 10px; border: 1px solid #ccc; border-radius: 6px; width: 100%; box-sizing: border-box; font-size: 14px; }
-        
-        .table-container { width: 100%; overflow-x: auto; margin-top: 20px; border: 1px solid #ddd; border-radius: 8px; }
-        table { width: 100%; border-collapse: collapse; min-width: 2200px; background: #fff; table-layout: fixed; }
-        th, td { border: 1px solid #ddd; padding: 5px; text-align: left; }
-        th { background-color: var(--primary-color); color: white; font-size: 13px; padding: 10px; }
+        :root {
+            --primary: #10b981;
+            --primary-dark: #059669;
+            --secondary: #3b82f6;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --white: #ffffff;
+            --border: #e2e8f0;
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
 
-        .col-id { width: 70px; }
-        .col-name { width: 250px; }
-        .col-common { width: 160px; }
-        .col-remove { width: 50px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Outfit', 'Segoe UI', Tahoma, sans-serif;
+            background: #f1f5f9;
+            color: var(--text-main);
+            padding: 20px;
+            line-height: 1.6;
+        }
 
-        td input, td select { border: none; background: transparent; width: 100%; }
-        .other-job-input { border: 1px solid #ddd !important; margin-top: 5px; display: none; background: white !important; }
+        .container { max-width: 1200px; margin: 0 auto; }
 
-        .btn-add { background: var(--primary-color); color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; margin-top: 15px; font-weight: bold; }
-        .btn-save { background: var(--secondary-color); color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 18px; margin-top: 30px; font-weight: bold; }
-        
-        .search-box { margin-top: 40px; padding: 20px; background: #e9ecef; border-radius: 8px; }
-        .data-list { margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
-        .family-card { background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .btn-edit { background: #3498db; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-right: 5px; }
-        .btn-delete { background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+        /* Header */
+        .header {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+            text-align: center;
+            border-top: 6px solid var(--primary);
+        }
+        .header h1 { font-size: 28px; color: var(--dark); margin-bottom: 5px; }
+        .header p { color: var(--text-muted); font-size: 14px; }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .nav-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .btn-view { background: var(--secondary); color: white; }
+        .btn-view:hover { opacity: 0.9; transform: translateY(-2px); }
+
+        /* Form Sections */
+        .section-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 25px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+        }
+
+        /* Members Table */
+        .table-responsive {
+            overflow-x: auto;
+            margin-top: 10px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1500px;
+        }
+        th {
+            background: #f8fafc;
+            padding: 15px;
+            text-align: left;
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+        td {
+            padding: 10px;
+            border-top: 1px solid var(--border);
+        }
+        td input, td select { padding: 8px; font-size: 14px; border: 1px solid #e2e8f0; }
+
+        .btn-add-row {
+            background: #f1f5f9;
+            color: var(--dark);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+        .btn-add-row:hover { background: #e2e8f0; }
+
+        .btn-submit {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 15px;
+            width: 100%;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        .btn-submit:hover { background: var(--primary-dark); transform: translateY(-2px); }
+
+        /* Family Cards for Edit/Delete */
+        .family-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .family-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .family-card-info h4 { font-size: 16px; margin-bottom: 4px; }
+        .family-card-info p { font-size: 13px; color: var(--text-muted); }
+        .card-actions { display: flex; gap: 8px; }
+        .btn-edit { background: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+        .btn-delete { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+
+        @media (max-width: 768px) {
+            .section-card { padding: 20px; }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header">
+    <header class="header">
         <h1>EARIAL MAHALLU MUSLIM JAMA-ATH</h1>
-        <p>Reg.No: 361/86, Po. Muthuvadathoor, Kozhikode, Kerala - 673503</p>
-    </div>
+        <p>Census Data Entry Portal</p>
+        <div class="nav-buttons">
+            <a href="view.html" class="nav-btn btn-view">📊 View All Data (റിപ്പോർട്ടുകൾ കാണുക)</a>
+        </div>
+    </header>
 
     <form id="censusForm">
         <input type="hidden" id="editId">
-        <div class="section-title">മഹല്ല് / വീട് വിവരങ്ങൾ (നിർബന്ധമായും പൂരിപ്പിക്കുക)</div>
-        <div class="grid">
-            <input type="text" id="Name" placeholder="ഗൃഹ നാഥന്‍/നാഥ *" required>
-            <input type="text" id="father" placeholder="പിതാവിന്‍റെ പേര് *" required>
-            <input type="text" id="houseName" placeholder="കുടുംബ പേര് / വീട്ടുപേര് *" required>
-            <input type="text" id="houseNumber" placeholder="മഹല്ല് വീട്ടുനമ്പർ *" required>
-            
-            <select id="place" required>
-                <option value="">ഏരിയ / സ്ഥലം തിരഞ്ഞെടുക്കുക *</option>
-                <option value="വണ്ണാറത്ത് ഭാഗം">വണ്ണാറത്ത് ഭാഗം</option>
-                <option value="ഒറ്റക്കണ്ടി ഭാഗം">ഒറ്റക്കണ്ടി ഭാഗം</option>
-                <option value="പള്ളി ഭാഗം">പള്ളി ഭാഗം</option>
-                <option value="കല്ലിൽ ഭാഗം">കല്ലിൽ ഭാഗം</option>
-                <option value="പുതിയടത്തിൽ ഭാഗം">പുതിയടത്തിൽ ഭാഗം</option>
-                <option value="മാലോൽ ഭാഗം">മാലോൽ ഭാഗം</option>
-                <option value="അരാംവള്ളി ഭാഗം">അരാംവള്ളി ഭാഗം</option>
-                <option value="ലക്ഷം വീട് ഭാഗം">ലക്ഷം വീട് ഭാഗം</option>
-            </select>
-
-            <input type="text" id="wardNumber" placeholder="പഞ്ചായത്ത് വാർഡ് & കെട്ടിട നമ്പർ *" required>
-            <input type="tel" id="mobile" placeholder="മൊബൈൽ {SMS} *" required>
-            <input type="tel" id="whatsapp" placeholder="വാട്‌സ്ആപ്പ്">
-            
-            <select id="veed" required>
-                <option value="">താമസിക്കുന്ന സ്ഥലം *</option>
-                <option value="സ്വന്തം">സ്വന്തം</option>
-                <option value="വാടക">വാടക</option>
-                <option value="കോളനി">കോളനി</option>
-                <option value="പുറംപോക്ക്">പുറംപോക്ക്</option>
-            </select>
-            <select id="rationCard" required>
-                <option value="">റേഷൻ കാർഡ് വിഭാഗം *</option>
-                <option value="BPL">BPL</option>
-                <option value="APL">APL</option>
-                <option value="AAY">AAY</option>
-                <option value="OTHER">OTHER</option>
-            </select>
+        
+        <div class="section-card">
+            <div class="section-title">മഹല്ല് / വീട് വിവരങ്ങൾ</div>
+            <div class="grid">
+                <div class="form-group">
+                    <label>ഗൃഹ നാഥന്‍/നാഥ *</label>
+                    <input type="text" id="Name" placeholder="പേര് നൽകുക" required>
+                </div>
+                <div class="form-group">
+                    <label>പിതാവിന്‍റെ പേര് *</label>
+                    <input type="text" id="father" placeholder="പിതാവിന്‍റെ പേര്" required>
+                </div>
+                <div class="form-group">
+                    <label>കുടുംബ പേര് / വീട്ടുപേര് *</label>
+                    <input type="text" id="houseName" placeholder="വീട്ടുപേര്" required>
+                </div>
+                <div class="form-group">
+                    <label>മഹല്ല് വീട്ടുനമ്പർ *</label>
+                    <input type="text" id="houseNumber" placeholder="വീട്ടുനമ്പർ" required>
+                </div>
+                <div class="form-group">
+                    <label>ഏരിയ / സ്ഥലം *</label>
+                    <select id="place" required>
+                        <option value="">തിരഞ്ഞെടുക്കുക</option>
+                        <option value="വണ്ണാറത്ത് ഭാഗം">വണ്ണാറത്ത് ഭാഗം</option>
+                        <option value="ഒറ്റക്കണ്ടി ഭാഗം">ഒറ്റക്കണ്ടി ഭാഗം</option>
+                        <option value="പള്ളി ഭാഗം">പള്ളി ഭാഗം</option>
+                        <option value="കല്ലിൽ ഭാഗം">കല്ലിൽ ഭാഗം</option>
+                        <option value="പുതിയടത്തിൽ ഭാഗം">പുതിയടത്തിൽ ഭാഗം</option>
+                        <option value="മാലോൽ ഭാഗം">മാലോൽ ഭാഗം</option>
+                        <option value="അരാംവള്ളി ഭാഗം">അരാംവള്ളി ഭാഗം</option>
+                        <option value="ലക്ഷം വീട് ഭാഗം">ലക്ഷം വീട് ഭാഗം</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>പഞ്ചായത്ത് വാർഡ് & കെട്ടിട നമ്പർ</label>
+                    <input type="text" id="wardNumber" placeholder="വാർഡ്/നമ്പർ">
+                </div>
+                <div class="form-group">
+                    <label>മൊബൈൽ (SMS) *</label>
+                    <input type="tel" id="mobile" placeholder="മൊബൈൽ നമ്പർ" required>
+                </div>
+                <div class="form-group">
+                    <label>വാട്‌സ്ആപ്പ്</label>
+                    <input type="tel" id="whatsapp" placeholder="വാട്‌സ്ആപ്പ് നമ്പർ">
+                </div>
+                <div class="form-group">
+                    <label>താമസിക്കുന്ന സ്ഥലം *</label>
+                    <select id="veed" required>
+                        <option value="">തിരഞ്ഞെടുക്കുക</option>
+                        <option value="സ്വന്തം">സ്വന്തം</option>
+                        <option value="വാടക">വാടക</option>
+                        <option value="കോളനി">കോളനി</option>
+                        <option value="പുറംപോക്ക്">പുറംപോക്ക്</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>റേഷൻ കാർഡ് വിഭാഗം *</label>
+                    <select id="rationCard" required>
+                        <option value="">തിരഞ്ഞെടുക്കുക</option>
+                        <option value="BPL">BPL</option>
+                        <option value="APL">APL</option>
+                        <option value="AAY">AAY</option>
+                        <option value="OTHER">OTHER</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
-        <div class="section-title">അംഗങ്ങളുടെ വിവരങ്ങൾ</div>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th class="col-id">അംഗത്ത നമ്പർ</th>
-                        <th class="col-name">പേര് *</th>
-                        <th class="col-common">പിതാവിന്‍റെ പേര്</th>
-                        <th class="col-common">ബന്ധം</th>
-                        <th class="col-id">ലിംഗം</th>
-                        <th class="col-common">ജനന തീയ്യതി</th>
-                        <th class="col-id">വയസ്സ്</th>
-                        <th class="col-common">വൈവാഹിക അവസ്ഥ</th>
-                        <th class="col-common">ജോലി മേഖല</th>
-                        <th class="col-common">ജോലി വിവരം</th>
-                        <th class="col-common">മൊബൈൽ</th>
-                        <th class="col-common">ബ്ലഡ് ഗ്രൂപ്പ്</th>
-                        <th class="col-common">ശാരീരിക അവസ്ഥ</th>
-                        <th class="col-common">മത വിദ്യാഭ്യാസം</th>
-                        <th class="col-common">ഭൗതിക വിദ്യാഭ്യാസം</th>
-                        <th class="col-id">യത്തീം?</th>
-                        <th class="col-common">റീമാർക്</th>
-                        <th class="col-remove">X</th>
-                    </tr>
-                </thead>
-                <tbody id="memberRows"></tbody>
-            </table>
+        <div class="section-card">
+            <div class="section-title">അംഗങ്ങളുടെ വിവരങ്ങൾ</div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">നമ്പർ</th>
+                            <th style="width: 250px;">പേര് *</th>
+                            <th style="width: 200px;">പിതാവിന്‍റെ പേര്</th>
+                            <th style="width: 150px;">ബന്ധം</th>
+                            <th style="width: 120px;">ലിംഗം</th>
+                            <th style="width: 150px;">ജനന തീയ്യതി</th>
+                            <th style="width: 80px;">വയസ്സ്</th>
+                            <th style="width: 150px;">വൈവാഹികം</th>
+                            <th style="width: 150px;">ജോലി മേഖല</th>
+                            <th style="width: 150px;">ജോലി വിവരം</th>
+                            <th style="width: 150px;">മൊബൈൽ</th>
+                            <th style="width: 100px;">ബ്ലഡ്</th>
+                            <th style="width: 150px;">ശാരീരിക അവസ്ഥ</th>
+                            <th style="width: 150px;">മത വിദ്യാഭ്യാസം</th>
+                            <th style="width: 150px;">ഭൗതിക വിദ്യാഭ്യാസം</th>
+                            <th style="width: 80px;">യത്തീം?</th>
+                            <th>X</th>
+                        </tr>
+                    </thead>
+                    <tbody id="memberRows"></tbody>
+                </table>
+            </div>
+            <button type="button" class="btn-add-row" onclick="addMemberRow()">+ അംഗത്തെ ചേർക്കുക</button>
         </div>
-        <button type="button" class="btn-add" onclick="addMemberRow()">+ അംഗത്തെ ചേർക്കുക</button>
 
-        <textarea id="remarks" placeholder="മറ്റ് വിവരങ്ങൾ (REMARKS)" style="margin-top: 20px; height: 80px;"></textarea>
-        <button type="submit" id="submitBtn" class="btn-save">സേവ് ചെയ്യുക</button>
+        <div class="section-card">
+            <div class="section-title">മറ്റ് വിവരങ്ങൾ</div>
+            <textarea id="remarks" placeholder="കുറിപ്പുകൾ (REMARKS)" style="height: 100px;"></textarea>
+            <button type="submit" id="submitBtn" class="btn-submit">വിവരങ്ങൾ സേവ് ചെയ്യുക</button>
+        </div>
     </form>
 
-    <div class="search-box">
-        <div class="section-title">സേവ് ചെയ്ത കുടുംബങ്ങൾ</div>
-        <div id="familyList" class="data-list"></div>
+    <div class="section-card">
+        <div class="section-title">സമീപകാലത്ത് ചേർത്തവ</div>
+        <div id="familyList" class="family-grid"></div>
     </div>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyAoVl_v1w0LWWENZ68q7HA6PBD0HZluG9Y",
@@ -147,32 +343,25 @@
     const db = getFirestore(app);
     let families = [];
 
-    window.toggleJobInput = (selectObj, rowId) => {
-        const otherInput = document.getElementById(`otherJob-${rowId}`);
-        if(otherInput) {
-            otherInput.style.display = (selectObj.value === 'Others') ? 'block' : 'none';
-        }
-    }
-
     window.addMemberRow = function(data = null) {
         const tbody = document.getElementById('memberRows');
         const id = data?.id || Date.now() + Math.random().toString(36).substr(2, 5);
         
         tbody.insertAdjacentHTML('beforeend', `
             <tr id="row-${id}" data-id="${id}">
-                <td class="col-id"><input type="text" class="m-no" value="${data?.no || ''}"></td>
-                <td class="col-name"><input type="text" class="m-name" required value="${data?.name || ''}" placeholder="പേര്"></td>
-                <td class="col-common"><input type="text" class="m-father" value="${data?.father || ''}"></td>
-                <td class="col-common"><input type="text" class="m-rel" value="${data?.relation || ''}"></td>
-                <td class="col-id">
+                <td><input type="text" class="m-no" value="${data?.no || ''}"></td>
+                <td><input type="text" class="m-name" required value="${data?.name || ''}"></td>
+                <td><input type="text" class="m-father" value="${data?.father || ''}"></td>
+                <td><input type="text" class="m-rel" value="${data?.relation || ''}"></td>
+                <td>
                     <select class="m-gender">
                         <option value="പുരുഷൻ" ${data?.gender==='പുരുഷൻ'?'selected':''}>പുരുഷൻ</option>
                         <option value="സ്ത്രീ" ${data?.gender==='സ്ത്രീ'?'selected':''}>സ്ത്രീ</option>
                     </select>
                 </td>
-                <td class="col-common"><input type="date" class="m-dob" value="${data?.dob || ''}"></td>
-                <td class="col-id"><input type="number" class="m-age" value="${data?.age || ''}"></td>
-                <td class="col-common">
+                <td><input type="date" class="m-dob" value="${data?.dob || ''}"></td>
+                <td><input type="number" class="m-age" value="${data?.age || ''}"></td>
+                <td>
                     <select class="m-marital">
                         <option value="">തിരഞ്ഞെടുക്കുക</option>
                         <option value="സിംഗിൾ" ${data?.marital==='സിംഗിൾ'?'selected':''}>സിംഗിൾ</option>
@@ -180,29 +369,27 @@
                         <option value="ഡിവോഴ്സ്" ${data?.marital==='ഡിവോഴ്സ്'?'selected':''}>ഡിവോഴ്സ്</option>
                     </select>
                 </td>
-                <td class="col-common">
-                    <select class="m-sector" onchange="toggleJobInput(this, '${id}')">
+                <td>
+                    <select class="m-sector">
                         <option value="">തിരഞ്ഞെടുക്കുക</option>
                         <option value="ഖത്തർ" ${data?.sector==='ഖത്തർ'?'selected':''}>ഖത്തർ</option>
                         <option value="ദുബായ്" ${data?.sector==='ദുബായ്'?'selected':''}>ദുബായ്</option>
-                        <option value="Others" ${data?.sector==='Others'?'selected':''}>Others</option>
+                        <option value="മറ്റുള്ളവ" ${data?.sector==='മറ്റുള്ളവ'?'selected':''}>മറ്റുള്ളവ</option>
                     </select>
-                    <input type="text" id="otherJob-${id}" class="other-job-input" placeholder="എവിടെ?" value="${data?.otherJob || ''}" style="${data?.sector==='Others'?'display:block':''}">
                 </td>
-                <td class="col-common"><input type="text" class="m-job" value="${data?.job || ''}"></td>
-                <td class="col-common"><input type="tel" class="m-mobile" value="${data?.mobile || ''}"></td>
-                <td class="col-common"><input type="text" class="m-blood" value="${data?.blood || ''}"></td>
-                <td class="col-common"><input type="text" class="m-health" value="${data?.health || ''}"></td>
-                <td class="col-common"><input type="text" class="m-e-rel" value="${data?.eduRel || ''}"></td>
-                <td class="col-common"><input type="text" class="m-e-sec" value="${data?.eduSec || ''}"></td>
-                <td class="col-id"><select class="m-orphan"><option value="No" ${data?.orphan==='No'?'selected':''}>No</option><option value="Yes" ${data?.orphan==='Yes'?'selected':''}>Yes</option></select></td>
-                <td class="col-common"><input type="text" class="m-remarks" value="${data?.remarks || ''}"></td>
-                <td class="col-remove"><button type="button" onclick="document.getElementById('row-${id}').remove()">X</button></td>
+                <td><input type="text" class="m-job" value="${data?.job || ''}"></td>
+                <td><input type="tel" class="m-mobile" value="${data?.mobile || ''}"></td>
+                <td><input type="text" class="m-blood" value="${data?.blood || ''}"></td>
+                <td><input type="text" class="m-health" value="${data?.health || ''}"></td>
+                <td><input type="text" class="m-e-rel" value="${data?.eduRel || ''}"></td>
+                <td><input type="text" class="m-e-sec" value="${data?.eduSec || ''}"></td>
+                <td><select class="m-orphan"><option value="No" ${data?.orphan==='No'?'selected':''}>No</option><option value="Yes" ${data?.orphan==='Yes'?'selected':''}>Yes</option></select></td>
+                <td><button type="button" onclick="document.getElementById('row-${id}').remove()" style="background:#fee2e2; border:none; color:#ef4444; padding:5px 10px; border-radius:5px; cursor:pointer;">X</button></td>
             </tr>`);
     }
 
     async function loadData() {
-        const q = query(collection(db, "MahallCensusData"), orderBy("timestamp", "desc"));
+        const q = query(collection(db, "MahallCensusData"), orderBy("timestamp", "desc"), limit(10));
         const snap = await getDocs(q);
         families = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         render(families);
@@ -214,10 +401,14 @@
         list.innerHTML = '';
         data.forEach(f => {
             list.innerHTML += `<div class="family-card">
-                <p><b>${f.houseName}</b> (${f.houseNumber||'No No.'})</p>
-                <p>ഗൃഹനാഥൻ: ${f.Name}</p>
-                <button class="btn-edit" onclick="editFamily('${f.id}')">എഡിറ്റ്</button>
-                <button class="btn-delete" onclick="deleteFamily('${f.id}')">ഡിലീറ്റ്</button>
+                <div class="family-card-info">
+                    <h4>${f.houseName}</h4>
+                    <p>${f.Name} | #${f.houseNumber}</p>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-edit" onclick="editFamily('${f.id}')">Edit</button>
+                    <button class="btn-delete" onclick="deleteFamily('${f.id}')">Del</button>
+                </div>
             </div>`;
         });
     }
@@ -248,14 +439,14 @@
         }
         
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        document.getElementById('submitBtn').innerText = "Update Data";
-        document.getElementById('submitBtn').style.background = "#3498db";
+        document.getElementById('submitBtn').innerText = "Update Record";
+        document.getElementById('submitBtn').style.background = "#3b82f6";
     }
 
     window.deleteFamily = async (id) => {
         const pass = prompt("Password?");
         if(pass === "1234") {
-            if(confirm("Delete this family?")) {
+            if(confirm("ഈ കുടുംബത്തെ നീക്കം ചെയ്യണോ?")) {
                 await deleteDoc(doc(db, "MahallCensusData", id));
                 loadData();
             }
@@ -267,6 +458,7 @@
         const btn = document.getElementById('submitBtn');
         const eId = document.getElementById('editId').value;
         btn.disabled = true;
+        btn.innerText = "Saving...";
 
         const members = [];
         document.querySelectorAll('#memberRows tr').forEach(tr => {
@@ -282,15 +474,13 @@
                 age: tr.querySelector('.m-age').value,
                 marital: tr.querySelector('.m-marital').value,
                 sector: tr.querySelector('.m-sector').value,
-                otherJob: document.getElementById(`otherJob-${rowId}`).value,
                 job: tr.querySelector('.m-job').value,
                 mobile: tr.querySelector('.m-mobile').value,
                 blood: tr.querySelector('.m-blood').value,
                 health: tr.querySelector('.m-health').value,
                 eduRel: tr.querySelector('.m-e-rel').value,
                 eduSec: tr.querySelector('.m-e-sec').value,
-                orphan: tr.querySelector('.m-orphan').value,
-                remarks: tr.querySelector('.m-remarks').value
+                orphan: tr.querySelector('.m-orphan').value
             });
         });
 
@@ -313,11 +503,12 @@
         try {
             if(eId) await updateDoc(doc(db, "MahallCensusData", eId), d);
             else await addDoc(collection(db, "MahallCensusData"), d);
-            alert("Success!");
+            alert("Record Saved Successfully!");
             location.reload();
         } catch (err) { 
             alert("Error: " + err.message);
-            btn.disabled = false; 
+            btn.disabled = false;
+            btn.innerText = "വിവരങ്ങൾ സേവ് ചെയ്യുക";
         }
     });
 
