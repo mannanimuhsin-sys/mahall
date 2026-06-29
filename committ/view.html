@@ -540,7 +540,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyAoVl_v1w0LWWENZ68q7HA6PBD0HZluG9Y",
@@ -568,11 +568,13 @@
     }
     function hideStatus() { document.getElementById('statusBanner').style.display = 'none'; }
 
-    /* ── Firebase listener ── */
-    function startListening() {
-        showStatus("Firebase-മായി ബന്ധിപ്പിക്കുന്നു...", "loading");
+    /* ── Firebase loader (getDocs – REST-based, no WebSocket timeout) ── */
+    async function startListening() {
+        showStatus("ഡേറ്റ ലോഡ് ചെയ്യുന്നു...", "loading");
 
-        onSnapshot(collection(db, "MahallCensusData"), (snap) => {
+        try {
+            const snap = await getDocs(collection(db, "MahallCensusData"));
+
             if (snap.empty) {
                 showStatus("ഡേറ്റ ഒന്നും ലഭ്യമല്ല. ആദ്യം Data Entry-ൽ ചേർക്കുക.", "error");
                 document.getElementById('familyDisplay').innerHTML = `
@@ -599,11 +601,18 @@
             renderCards(allFamilies);
             document.getElementById('resultCount').textContent = allFamilies.length + ' വീടുകൾ';
 
-        }, (err) => {
+            // Auto-refresh every 30 seconds to keep data current
+            setTimeout(startListening, 30000);
+
+        } catch (err) {
             console.error("Firebase error:", err);
-            showStatus("Firebase Error: " + err.message, "error");
-        });
+            showStatus("ഡേറ്റ ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല: " + err.message, "error");
+            // Retry after 5 seconds on error
+            setTimeout(startListening, 5000);
+        }
     }
+
+    startListening();
 
     /* ── Stats ── */
     function updateStats(data) {
@@ -974,7 +983,6 @@
         win.print();
     };
 
-    startListening();
 </script>
 </body>
 </html>
