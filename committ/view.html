@@ -32,55 +32,54 @@
             color: var(--text-main);
         }
 
-        .container { max-width: 1300px; margin: 0 auto; padding: 24px 16px; }
+        .container { max-width: 1300px; margin: 0 auto; padding: 16px; }
 
         /* ── Header ── */
         .app-header {
             background: var(--white);
-            border-radius: 24px;
-            padding: 32px 36px;
+            border-radius: 20px;
+            padding: 24px 20px;
             box-shadow: var(--card-shadow);
-            margin-bottom: 28px;
+            margin-bottom: 20px;
             text-align: center;
-            border-top: 6px solid var(--primary);
-            position: relative;
-            overflow: hidden;
-        }
-        .app-header::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(16,185,129,0.04), transparent 60%);
+            border-top: 5px solid var(--primary);
         }
         .app-header h1 {
-            font-size: clamp(22px, 4vw, 30px);
+            font-size: clamp(18px, 4vw, 28px);
             font-weight: 800;
             color: var(--dark);
             letter-spacing: -0.5px;
         }
-        .app-header p { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+        .app-header p { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
+        .nav-btns {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
         .back-btn {
             display: inline-flex;
             align-items: center;
             gap: 6px;
             background: var(--secondary);
             color: white;
-            padding: 8px 18px;
+            padding: 8px 16px;
             border-radius: 10px;
             text-decoration: none;
             font-size: 13px;
             font-weight: 600;
-            margin-top: 14px;
             transition: all 0.25s;
         }
         .back-btn:hover { opacity: 0.85; transform: translateY(-2px); }
+        .back-btn.green { background: var(--primary-dark); }
 
         /* ── Status Banner ── */
         #statusBanner {
             display: none;
             padding: 12px 18px;
             border-radius: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             font-size: 14px;
             font-weight: 600;
             text-align: center;
@@ -91,22 +90,25 @@
         /* ── Stats Grid ── */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-            gap: 18px;
-            margin-bottom: 26px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        @media (min-width: 640px) {
+            .stats-grid { grid-template-columns: repeat(6, 1fr); }
         }
         .stat-card {
             background: var(--white);
-            border-radius: 20px;
-            padding: 24px 20px;
+            border-radius: 16px;
+            padding: 16px 10px;
             box-shadow: var(--card-shadow);
             text-align: center;
             transition: transform 0.3s;
         }
-        .stat-card:hover { transform: translateY(-4px); }
-        .stat-card .icon { font-size: 28px; margin-bottom: 6px; }
-        .stat-card h3 { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; font-weight: 600; }
-        .stat-card .value { font-size: 38px; font-weight: 800; color: var(--dark); line-height: 1; }
+        .stat-card:hover { transform: translateY(-3px); }
+        .stat-card .icon { font-size: 22px; margin-bottom: 4px; }
+        .stat-card h3 { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; font-weight: 600; }
+        .stat-card .value { font-size: clamp(22px, 4vw, 32px); font-weight: 800; color: var(--dark); line-height: 1; }
         .stat-card.green .value  { color: var(--primary); }
         .stat-card.blue .value   { color: var(--secondary); }
         .stat-card.pink .value   { color: #ec4899; }
@@ -115,37 +117,37 @@
         /* ── Controls ── */
         .controls {
             background: var(--white);
-            border-radius: 18px;
-            padding: 16px 20px;
+            border-radius: 16px;
+            padding: 14px 16px;
             box-shadow: var(--card-shadow);
-            margin-bottom: 26px;
+            margin-bottom: 20px;
             display: flex;
-            gap: 14px;
+            gap: 10px;
             flex-wrap: wrap;
             align-items: center;
             position: sticky;
-            top: 16px;
+            top: 10px;
             z-index: 90;
         }
-        .controls .search-wrap { flex: 2; min-width: 200px; position: relative; }
-        .controls .search-wrap input {
+        .search-wrap { flex: 2; min-width: 200px; position: relative; }
+        .search-wrap input {
             width: 100%;
-            padding: 12px 16px 12px 44px;
+            padding: 11px 14px 11px 42px;
             border: 2px solid var(--border);
             border-radius: 12px;
-            font-size: 15px;
+            font-size: 14px;
             font-family: inherit;
             outline: none;
             transition: border 0.2s;
         }
-        .controls .search-wrap input:focus { border-color: var(--primary); }
-        .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 18px; opacity: 0.4; }
+        .search-wrap input:focus { border-color: var(--primary); }
+        .search-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); font-size: 17px; opacity: 0.4; pointer-events: none; }
         .controls select {
-            flex: 1; min-width: 160px;
-            padding: 12px 14px;
+            flex: 1; min-width: 140px;
+            padding: 11px 12px;
             border: 2px solid var(--border);
             border-radius: 12px;
-            font-size: 14px;
+            font-size: 13px;
             font-family: inherit;
             outline: none;
             background: white;
@@ -154,11 +156,11 @@
         }
         .controls select:focus { border-color: var(--primary); }
         .result-count {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-muted);
             font-weight: 600;
             white-space: nowrap;
-            padding: 8px 14px;
+            padding: 8px 12px;
             background: var(--light);
             border-radius: 8px;
         }
@@ -166,20 +168,23 @@
         /* ── Family Cards Grid ── */
         .family-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+        }
+        @media (max-width: 480px) {
+            .family-grid { grid-template-columns: 1fr; }
         }
         .family-card {
             background: var(--white);
-            border-radius: 18px;
-            padding: 22px;
+            border-radius: 16px;
+            padding: 18px;
             box-shadow: var(--card-shadow);
             cursor: pointer;
             transition: all 0.28s;
             border: 2px solid transparent;
         }
         .family-card:hover {
-            transform: translateY(-6px);
+            transform: translateY(-5px);
             box-shadow: 0 20px 40px -8px rgba(16,185,129,0.2);
             border-color: var(--primary);
         }
@@ -187,15 +192,15 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
         .house-badge {
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: var(--grad);
             color: white;
-            padding: 5px 12px;
+            padding: 4px 11px;
             border-radius: 8px;
             font-weight: 700;
-            font-size: 13px;
+            font-size: 12px;
         }
         .area-tag {
             font-size: 11px;
@@ -205,28 +210,28 @@
             padding: 4px 10px;
             border-radius: 20px;
         }
-        .house-name { font-size: 18px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
-        .owner-name { font-size: 14px; color: var(--text-muted); margin-bottom: 12px; }
+        .house-name { font-size: 17px; font-weight: 700; color: var(--dark); margin-bottom: 3px; }
+        .owner-name { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; }
         .fc-meta {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-muted);
-            padding-top: 12px;
+            padding-top: 10px;
             border-top: 1px solid var(--border);
         }
-        .fc-meta span { display: flex; align-items: center; gap: 4px; }
+        .fc-meta span { display: flex; align-items: center; gap: 3px; }
 
         /* ── No results ── */
         .empty-state {
             grid-column: 1 / -1;
             text-align: center;
-            padding: 60px 20px;
+            padding: 50px 20px;
             color: var(--text-muted);
         }
-        .empty-state .icon { font-size: 60px; margin-bottom: 16px; }
-        .empty-state h3 { font-size: 18px; margin-bottom: 6px; color: var(--dark); }
+        .empty-state .icon { font-size: 50px; margin-bottom: 14px; }
+        .empty-state h3 { font-size: 17px; margin-bottom: 5px; color: var(--dark); }
 
         /* ── Modal ── */
         .modal-overlay {
@@ -236,39 +241,37 @@
             background: rgba(15,23,42,0.65);
             backdrop-filter: blur(6px);
             z-index: 1000;
-            padding: 20px;
+            padding: 10px;
             overflow-y: auto;
-            align-items: flex-start;
-            justify-content: center;
         }
-        .modal-overlay.active { display: flex; }
+        .modal-overlay.active { display: block; }
         .modal-box {
             background: var(--white);
             max-width: 960px;
             width: 100%;
-            border-radius: 24px;
+            border-radius: 20px;
             position: relative;
-            margin: auto;
+            margin: 20px auto;
         }
         .modal-header {
             background: var(--grad);
             color: white;
-            padding: 28px 36px;
-            border-radius: 24px 24px 0 0;
+            padding: 22px 24px;
+            border-radius: 20px 20px 0 0;
             position: relative;
         }
-        .modal-header h2 { font-size: 20px; font-weight: 700; }
+        .modal-header h2 { font-size: 18px; font-weight: 700; padding-right: 40px; }
         .modal-header p { font-size: 13px; opacity: 0.85; margin-top: 2px; }
         .modal-close {
             position: absolute;
-            right: 20px;
-            top: 18px;
-            width: 36px;
-            height: 36px;
+            right: 16px;
+            top: 16px;
+            width: 34px;
+            height: 34px;
             background: rgba(255,255,255,0.2);
             border: none;
             border-radius: 50%;
-            font-size: 20px;
+            font-size: 18px;
             cursor: pointer;
             color: white;
             display: flex;
@@ -277,97 +280,88 @@
             transition: background 0.2s;
         }
         .modal-close:hover { background: rgba(255,255,255,0.35); }
+        .modal-body { padding: 22px 20px 24px; }
 
-        .modal-body { padding: 30px 36px 36px; }
-
-        /* House info grid */
+        /* Info grid */
         .info-section-title {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             color: var(--primary);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        .info-section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
+        .info-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 14px;
-            margin-bottom: 28px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 22px;
         }
         .info-item label {
             display: block;
-            font-size: 11px;
+            font-size: 10px;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.4px;
             font-weight: 600;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
         }
-        .info-item .val {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--dark);
-        }
+        .info-item .val { font-size: 14px; font-weight: 600; color: var(--dark); }
         .info-item .val.empty { color: var(--text-muted); font-weight: 400; }
 
         /* Members table */
         .members-table-wrap {
             overflow-x: auto;
-            border-radius: 12px;
+            border-radius: 10px;
             border: 1px solid var(--border);
-            margin-bottom: 24px;
+            margin-bottom: 20px;
+            -webkit-overflow-scrolling: touch;
         }
         .members-table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 900px;
-            font-size: 13px;
+            min-width: 860px;
+            font-size: 12px;
         }
-        .members-table thead tr {
-            background: #f8fafc;
-        }
+        .members-table thead tr { background: #f8fafc; }
         .members-table th {
-            padding: 12px 14px;
+            padding: 10px 12px;
             text-align: left;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.4px;
             border-bottom: 1px solid var(--border);
+            white-space: nowrap;
         }
         .members-table td {
-            padding: 11px 14px;
+            padding: 10px 12px;
             border-bottom: 1px solid #f1f5f9;
             color: var(--text-main);
+            white-space: nowrap;
         }
         .members-table tbody tr:last-child td { border-bottom: none; }
         .members-table tbody tr:hover { background: rgba(16,185,129,0.04); }
-        .members-table .row-num {
+        .row-num {
             background: var(--primary);
             color: white;
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
         }
         .badge {
             display: inline-block;
-            padding: 2px 9px;
+            padding: 2px 8px;
             border-radius: 20px;
             font-size: 11px;
             font-weight: 600;
@@ -377,55 +371,65 @@
         .badge-yes    { background: #fee2e2; color: #dc2626; }
         .badge-blood  { background: #fff7ed; color: #c2410c; }
 
-        /* Remarks */
         .remarks-box {
             background: #f8fafc;
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 14px 18px;
-            font-size: 14px;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 13px;
             color: var(--text-muted);
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
-        /* Modal footer buttons */
+        /* Modal footer */
         .modal-footer {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
+            padding-top: 4px;
         }
         .btn-pdf {
             flex: 1;
-            padding: 14px;
+            min-width: 130px;
+            padding: 13px;
             background: var(--grad);
             color: white;
             border: none;
             border-radius: 12px;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
             cursor: pointer;
             font-family: inherit;
             transition: opacity 0.2s, transform 0.2s;
         }
         .btn-pdf:hover { opacity: 0.88; transform: translateY(-2px); }
+        .btn-pdf:active { transform: scale(0.97); }
         .btn-print {
-            padding: 14px 22px;
+            min-width: 100px;
+            padding: 13px 18px;
             background: #f1f5f9;
             color: var(--dark);
             border: none;
             border-radius: 12px;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             font-family: inherit;
             transition: background 0.2s;
         }
         .btn-print:hover { background: var(--border); }
+        .btn-print:active { transform: scale(0.97); }
 
-        @media (max-width: 768px) {
-            .controls { flex-direction: column; }
-            .modal-body { padding: 20px; }
-            .modal-header { padding: 20px; }
+        /* Mobile tweaks */
+        @media (max-width: 640px) {
+            .controls { flex-direction: column; gap: 8px; }
+            .controls select, .search-wrap { min-width: 100%; flex: unset; width: 100%; }
+            .result-count { align-self: flex-end; }
+            .modal-body { padding: 16px; }
+            .modal-header { padding: 18px 16px; }
+            .modal-box { margin: 0; border-radius: 16px 16px 0 0; position: fixed; bottom: 0; left: 0; right: 0; max-height: 92vh; overflow-y: auto; }
+            .modal-overlay.active { display: flex; align-items: flex-end; }
+            .info-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
@@ -437,9 +441,9 @@
     <header class="app-header">
         <h1>🕌 EARIAL MAHALLU MUSLIM JAMA-ATH</h1>
         <p>Census View Portal — എല്ലാ കുടുംബ വിവരങ്ങളും</p>
-        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 14px; flex-wrap: wrap;">
+        <div class="nav-btns">
             <a href="index.html" class="back-btn">← Data Entry 1 (Index)</a>
-            <a href="mahall.html" class="back-btn" style="background: var(--primary-dark);">← Data Entry 2 (Mahall)</a>
+            <a href="mahall.html" class="back-btn green">← Data Entry 2 (Mahall)</a>
         </div>
     </header>
 
@@ -484,7 +488,10 @@
     <div class="controls">
         <div class="search-wrap">
             <span class="search-icon">🔍</span>
-            <input type="text" id="searchInput" placeholder="പേര്, വീട്ടുപേര്, മൊബൈൽ, വീട്ടുനമ്പർ, സ്കിൽസ്..." oninput="filterData()">
+            <input type="text" id="searchInput"
+                   placeholder="പേര്, വീട്ടുപേര്, വീട്ടുനമ്പർ, മൊബൈൽ..."
+                   oninput="filterData()"
+                   inputmode="search">
         </div>
         <select id="placeFilter" onchange="filterData()">
             <option value="">📍 എല്ലാ ഏരിയകളും</option>
@@ -554,11 +561,13 @@
     const app = initializeApp(firebaseConfig);
     const db  = getFirestore(app);
 
-    let allFamilies = [];
+    // ✅ Expose to window so onclick handlers (global scope) can access it
+    window.allFamilies = [];
 
     /* ── Helpers ── */
     function val(v)   { return (v && String(v).trim()) ? String(v).trim() : null; }
     function disp(v, fallback = '—') { return val(v) || fallback; }
+    window._disp = disp; // expose for PDF/Print functions
 
     function showStatus(msg, type) {
         const b = document.getElementById('statusBanner');
@@ -588,26 +597,25 @@
                 return;
             }
 
-            allFamilies = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            window.allFamilies = snap.docs.map(d => ({ id: d.id, ...d.data() }));
             // Sort by house number numerically
-            allFamilies.sort((a, b) => {
+            window.allFamilies.sort((a, b) => {
                 const na = parseInt(String(a.houseNumber || '0').replace(/\D/g, '')) || 0;
                 const nb = parseInt(String(b.houseNumber || '0').replace(/\D/g, '')) || 0;
                 return na - nb;
             });
 
             hideStatus();
-            updateStats(allFamilies);
-            renderCards(allFamilies);
-            document.getElementById('resultCount').textContent = allFamilies.length + ' വീടുകൾ';
+            updateStats(window.allFamilies);
+            renderCards(window.allFamilies);
+            document.getElementById('resultCount').textContent = window.allFamilies.length + ' വീടുകൾ';
 
-            // Auto-refresh every 30 seconds to keep data current
-            setTimeout(startListening, 30000);
+            // Auto-refresh every 45 seconds
+            setTimeout(startListening, 45000);
 
         } catch (err) {
             console.error("Firebase error:", err);
             showStatus("ഡേറ്റ ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല: " + err.message, "error");
-            // Retry after 5 seconds on error
             setTimeout(startListening, 5000);
         }
     }
@@ -621,15 +629,14 @@
             const mbs = f.members || [];
             members += mbs.length;
             mbs.forEach(m => {
-                const genderTrimmed = m.gender ? String(m.gender).trim() : '';
-                if (genderTrimmed === 'പുരുഷൻ') males++;
-                else if (genderTrimmed === 'സ്ത്രീ') females++;
-                
+                const g = m.gender ? String(m.gender).trim() : '';
+                if (g === 'പുരുഷൻ') males++;
+                else if (g === 'സ്ത്രീ') females++;
+
                 const sector = m.sector ? String(m.sector).trim().toLowerCase() : '';
-                if (sector && !['kerala', 'കേരളം', 'നാട്ടിൽ', 'നാട്ടില്'].includes(sector)) abroad++;
-                
-                const orphan = m.orphan ? String(m.orphan).trim().toLowerCase() : '';
-                if (orphan === 'yes') orphans++;
+                if (sector && !['kerala', 'കേരളം', 'നാട്ടിൽ', 'നാട്ടില്', ''].includes(sector)) abroad++;
+
+                if (m.orphan && String(m.orphan).trim().toLowerCase() === 'yes') orphans++;
             });
         });
         document.getElementById('statHouses').textContent  = data.length;
@@ -657,19 +664,18 @@
             const maleCount   = (f.members || []).filter(m => String(m.gender).trim() === 'പുരുഷൻ').length;
             const femaleCount = (f.members || []).filter(m => String(m.gender).trim() === 'സ്ത്രീ').length;
             return `
-            <div class="family-card" onclick="openDetails('${f.id}')" id="card-${f.id}">
+            <div class="family-card" onclick="openDetails('${f.id}')">
                 <div class="fc-top">
-                    <span class="house-badge"># ${disp(f.houseNumber)}</span>
+                    <span class="house-badge"># ${disp(f.houseNumber, 'N/A')}</span>
                     <span class="area-tag">${disp(f.place, '')}</span>
                 </div>
-                <div class="house-name">${disp(f.houseName, 'പേരില്ല')}</div>
-                <div class="owner-name">👤 ${disp(f.Name)} &nbsp;|&nbsp; 📞 ${disp(f.mobile)}</div>
+                <div class="house-name">${disp(f.houseName)}</div>
+                <div class="owner-name">👤 ${disp(f.Name)}</div>
                 <div class="fc-meta">
-                    <span>👥 ${memberCount} അംഗം</span>
+                    <span>👥 ${memberCount} പേർ</span>
                     <span>👨 ${maleCount}</span>
                     <span>👩 ${femaleCount}</span>
-                    ${disp(f.rationCard,'') ? `<span>🗂️ ${f.rationCard}</span>` : ''}
-                    ${disp(f.veed,'') ? `<span>🏡 ${f.veed}</span>` : ''}
+                    ${f.mobile ? `<span>📞 ${f.mobile}</span>` : ''}
                 </div>
             </div>`;
         }).join('');
@@ -677,18 +683,33 @@
 
     /* ── Filter ── */
     window.filterData = () => {
-        const search = document.getElementById('searchInput').value.toLowerCase().trim();
+        const search = document.getElementById('searchInput').value.trim().toLowerCase();
         const place  = document.getElementById('placeFilter').value;
         const ration = document.getElementById('rationFilter').value;
         const veed   = document.getElementById('veedFilter').value;
 
-        const filtered = allFamilies.filter(f => {
-            const matchSearch = !search || [
-                f.houseName, f.Name, f.houseNumber, f.mobile, f.whatsapp, f.ward, f.father, f.place, f.veed, f.rationCard
-            ].some(v => v && String(v).toLowerCase().includes(search))
-              || (f.members || []).some(m => [
-                  m.name, m.father, m.relation, m.blood, m.mobile, m.job, m.sector, m.place, m.skills, m.remarks, m.no
-              ].some(mv => mv && String(mv).toLowerCase().includes(search)));
+        const filtered = window.allFamilies.filter(f => {
+            let matchSearch = true;
+            if (search) {
+                // House number: exact or partial numeric match
+                const hn = String(f.houseNumber || '').toLowerCase();
+                const matchHouseNum = hn === search || hn.startsWith(search) || hn.includes(search);
+
+                // Text fields
+                const textMatch = [
+                    f.houseName, f.Name, f.father, f.mobile, f.whatsapp,
+                    f.place, f.ward, f.rationCard, f.veed, f.remarks
+                ].some(fv => fv && String(fv).toLowerCase().includes(search));
+
+                // Member fields
+                const memberMatch = (f.members || []).some(m =>
+                    [m.name, m.father, m.relation, m.blood, m.mobile,
+                     m.job, m.sector, m.place, m.skills, m.remarks, m.no
+                    ].some(mv => mv && String(mv).toLowerCase().includes(search))
+                );
+
+                matchSearch = matchHouseNum || textMatch || memberMatch;
+            }
 
             const matchPlace  = !place  || f.place === place;
             const matchRation = !ration || f.rationCard === ration;
@@ -702,7 +723,7 @@
 
     /* ── Open Detail Modal ── */
     window.openDetails = (id) => {
-        const f = allFamilies.find(x => x.id === id);
+        const f = window.allFamilies.find(x => x.id === id);
         if (!f) return;
 
         document.getElementById('mhHouseName').textContent = `${disp(f.houseName)} (# ${disp(f.houseNumber)})`;
@@ -750,79 +771,34 @@
         document.getElementById('modalBody').innerHTML = `
             <p class="info-section-title">🏠 വീട് / കുടുംബ വിവരങ്ങൾ</p>
             <div class="info-grid">
-                <div class="info-item">
-                    <label>ഗൃഹ നാഥൻ/നാഥ</label>
-                    <div class="val">${disp(f.Name)}</div>
-                </div>
-                <div class="info-item">
-                    <label>പിതാവ്</label>
-                    <div class="val">${disp(f.father)}</div>
-                </div>
-                <div class="info-item">
-                    <label>വീട്ടുപേര്</label>
-                    <div class="val">${disp(f.houseName)}</div>
-                </div>
-                <div class="info-item">
-                    <label>മഹല്ല് നമ്പർ</label>
-                    <div class="val">${disp(f.houseNumber)}</div>
-                </div>
-                <div class="info-item">
-                    <label>ഏരിയ / സ്ഥലം</label>
-                    <div class="val">${disp(f.place)}</div>
-                </div>
-                <div class="info-item">
-                    <label>വാർഡ് / കെട്ടിട നമ്പർ</label>
-                    <div class="val ${!val(f.ward) ? 'empty' : ''}">${disp(f.ward)}</div>
-                </div>
-                <div class="info-item">
-                    <label>മൊബൈൽ (SMS)</label>
-                    <div class="val">${disp(f.mobile)}</div>
-                </div>
-                <div class="info-item">
-                    <label>വാട്‌സ്ആപ്പ്</label>
-                    <div class="val ${!val(f.whatsapp) ? 'empty' : ''}">${disp(f.whatsapp)}</div>
-                </div>
-                <div class="info-item">
-                    <label>താമസം</label>
-                    <div class="val ${!val(f.veed) ? 'empty' : ''}">${disp(f.veed)}</div>
-                </div>
-                <div class="info-item">
-                    <label>റേഷൻ കാർഡ്</label>
-                    <div class="val ${!val(f.rationCard) ? 'empty' : ''}">${disp(f.rationCard)}</div>
-                </div>
+                <div class="info-item"><label>ഗൃഹ നാഥൻ/നാഥ</label><div class="val">${disp(f.Name)}</div></div>
+                <div class="info-item"><label>പിതാവ്</label><div class="val">${disp(f.father)}</div></div>
+                <div class="info-item"><label>വീട്ടുപേര്</label><div class="val">${disp(f.houseName)}</div></div>
+                <div class="info-item"><label>മഹല്ല് നമ്പർ</label><div class="val">${disp(f.houseNumber)}</div></div>
+                <div class="info-item"><label>ഏരിയ / സ്ഥലം</label><div class="val">${disp(f.place)}</div></div>
+                <div class="info-item"><label>വാർഡ് / കെട്ടിട നമ്പർ</label><div class="val ${!val(f.ward)?'empty':''}">${disp(f.ward)}</div></div>
+                <div class="info-item"><label>മൊബൈൽ (SMS)</label><div class="val">${disp(f.mobile)}</div></div>
+                <div class="info-item"><label>വാട്‌സ്ആപ്പ്</label><div class="val ${!val(f.whatsapp)?'empty':''}">${disp(f.whatsapp)}</div></div>
+                <div class="info-item"><label>താമസം</label><div class="val ${!val(f.veed)?'empty':''}">${disp(f.veed)}</div></div>
+                <div class="info-item"><label>റേഷൻ കാർഡ്</label><div class="val ${!val(f.rationCard)?'empty':''}">${disp(f.rationCard)}</div></div>
             </div>
 
             <p class="info-section-title">👥 അംഗങ്ങളുടെ വിവരങ്ങൾ (${members.length} പേർ)</p>
-            ${members.length === 0 ? `<div class="remarks-box" style="text-align:center;">ഒരു അംഗം ചേർത്തിട്ടില്ല.</div>` : `
-            <div class="members-table-wrap">
-                <table class="members-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>അംഗത്വ No</th>
-                            <th>പേര്</th>
-                            <th>പിതാവ്</th>
-                            <th>ബന്ധം</th>
-                            <th>ലിംഗം</th>
-                            <th>ജനന തീയ്യതി</th>
-                            <th>வயസ്സ്</th>
-                            <th>വൈവാഹികം</th>
-                            <th>ജോലി മേഖല</th>
-                            <th>ജോലി</th>
-                            <th>മൊബൈൽ</th>
-                            <th>ബ്ലഡ്</th>
-                            <th>ആരോഗ്യം</th>
-                            <th>മത വിദ്യ.</th>
-                            <th>ഭൗതിക വിദ്യ.</th>
-                            <th>സ്കിൽസ്</th>
-                            <th>യത്തീം</th>
-                            <th>സ്ഥലം</th>
-                            <th>റീമാർക്</th>
-                        </tr>
-                    </thead>
-                    <tbody>${memberRows}</tbody>
-                </table>
-            </div>`}
+            ${members.length === 0
+                ? `<div class="remarks-box" style="text-align:center;">ഒരു അംഗം ചേർത്തിട്ടില്ല.</div>`
+                : `<div class="members-table-wrap">
+                    <table class="members-table">
+                        <thead><tr>
+                            <th>#</th><th>അംഗത്വ No</th><th>പേര്</th><th>പിതാവ്</th>
+                            <th>ബന്ധം</th><th>ലിംഗം</th><th>ജനന തീയ്യതി</th><th>വയസ്സ്</th>
+                            <th>വൈവാഹികം</th><th>ജോലി മേഖല</th><th>ജോലി</th><th>മൊബൈൽ</th>
+                            <th>ബ്ലഡ്</th><th>ആരോഗ്യം</th><th>മത വിദ്യ.</th><th>ഭൗതിക വിദ്യ.</th>
+                            <th>സ്കിൽസ്</th><th>യത്തീം</th><th>സ്ഥലം</th><th>റീമാർക്</th>
+                        </tr></thead>
+                        <tbody>${memberRows}</tbody>
+                    </table>
+                </div>`
+            }
 
             ${val(f.remarks) ? `
             <p class="info-section-title">📝 കുറിപ്പ്</p>
@@ -844,7 +820,7 @@
     };
 
     // Close on overlay click
-    document.getElementById('detailModal').addEventListener('click', (e) => {
+    document.getElementById('detailModal').addEventListener('click', e => {
         if (e.target === document.getElementById('detailModal')) window.closeModal();
     });
 
@@ -852,9 +828,10 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') window.closeModal(); });
 
     /* ── PDF Download ── */
+    // ✅ Uses window.allFamilies so it works from global onclick
     window.downloadPDF = (id) => {
-        const f = allFamilies.find(x => x.id === id);
-        if (!f) return;
+        const f = window.allFamilies.find(x => x.id === id);
+        if (!f) { alert('ഡേറ്റ കണ്ടെത്തിയില്ല'); return; }
 
         const members = f.members || [];
         const memberRows = members.map((m, i) => `
@@ -883,50 +860,50 @@
 
         const pdfEl = document.createElement('div');
         pdfEl.innerHTML = `
-        <div style="font-family:Arial,sans-serif; font-size:12px; padding:20px;">
-            <div style="text-align:center; border-bottom:3px solid #10b981; padding-bottom:14px; margin-bottom:18px;">
-                <h2 style="font-size:18px; margin:0;">EARIAL MAHALLU MUSLIM JAMA-ATH</h2>
-                <p style="margin:4px 0; color:#555;">Census Family Report</p>
+        <div style="font-family:Arial,sans-serif;font-size:12px;padding:20px;">
+            <div style="text-align:center;border-bottom:3px solid #10b981;padding-bottom:12px;margin-bottom:16px;">
+                <h2 style="font-size:18px;margin:0;">EARIAL MAHALLU MUSLIM JAMA-ATH</h2>
+                <p style="margin:4px 0;color:#555;">Census Family Report</p>
             </div>
-            <table style="width:100%; border-collapse:collapse; margin-bottom:16px; font-size:12px;">
-                <tr><td style="padding:5px; width:50%;"><b>ഗൃഹ നാഥൻ/നാഥ:</b> ${disp(f.Name)}</td><td style="padding:5px;"><b>പിതാവ്:</b> ${disp(f.father)}</td></tr>
+            <table style="width:100%;border-collapse:collapse;margin-bottom:14px;font-size:12px;">
+                <tr><td style="padding:5px;width:50%;"><b>ഗൃഹ നാഥൻ/നാഥ:</b> ${disp(f.Name)}</td><td style="padding:5px;"><b>പിതാവ്:</b> ${disp(f.father)}</td></tr>
                 <tr><td style="padding:5px;"><b>വീട്ടുപേര്:</b> ${disp(f.houseName)}</td><td style="padding:5px;"><b>മഹല്ല് നമ്പർ:</b> ${disp(f.houseNumber)}</td></tr>
                 <tr><td style="padding:5px;"><b>ഏരിയ:</b> ${disp(f.place)}</td><td style="padding:5px;"><b>മൊബൈൽ:</b> ${disp(f.mobile)}</td></tr>
                 <tr><td style="padding:5px;"><b>വാട്‌സ്ആപ്പ്:</b> ${disp(f.whatsapp)}</td><td style="padding:5px;"><b>വാർഡ്:</b> ${disp(f.ward)}</td></tr>
                 <tr><td style="padding:5px;"><b>താമസം:</b> ${disp(f.veed)}</td><td style="padding:5px;"><b>റേഷൻ കാർഡ്:</b> ${disp(f.rationCard)}</td></tr>
             </table>
-            <h3 style="font-size:13px; border-bottom:1px solid #eee; padding-bottom:6px; margin-bottom:10px;">
+            <h3 style="font-size:13px;border-bottom:1px solid #eee;padding-bottom:5px;margin-bottom:8px;">
                 👥 അംഗങ്ങൾ (${members.length} പേർ)
             </h3>
-            <table style="width:100%; border-collapse:collapse; font-size:10px;">
+            <table style="width:100%;border-collapse:collapse;font-size:10px;">
                 <thead>
                     <tr style="background:#f1f5f9;">
-                        <th style="border:1px solid #ddd; padding:5px;">#</th>
-                        <th style="border:1px solid #ddd; padding:5px;">അംഗത്വ No</th>
-                        <th style="border:1px solid #ddd; padding:5px;">പേര്</th>
-                        <th style="border:1px solid #ddd; padding:5px;">പിതാവ്</th>
-                        <th style="border:1px solid #ddd; padding:5px;">ബന്ധം</th>
-                        <th style="border:1px solid #ddd; padding:5px;">ലിംഗം</th>
-                        <th style="border:1px solid #ddd; padding:5px;">DOB</th>
-                        <th style="border:1px solid #ddd; padding:5px;">വയസ്സ്</th>
-                        <th style="border:1px solid #ddd; padding:5px;">വൈവാഹിക</th>
-                        <th style="border:1px solid #ddd; padding:5px;">മേഖല</th>
-                        <th style="border:1px solid #ddd; padding:5px;">ജോലി</th>
-                        <th style="border:1px solid #ddd; padding:5px;">Mobile</th>
-                        <th style="border:1px solid #ddd; padding:5px;">Blood</th>
-                        <th style="border:1px solid #ddd; padding:5px;">ആരോഗ്യം</th>
-                        <th style="border:1px solid #ddd; padding:5px;">മത വിദ്യ.</th>
-                        <th style="border:1px solid #ddd; padding:5px;">ഭൗ. വിദ്യ.</th>
-                        <th style="border:1px solid #ddd; padding:5px;">സ്കിൽസ്</th>
-                        <th style="border:1px solid #ddd; padding:5px;">യത്തീം</th>
-                        <th style="border:1px solid #ddd; padding:5px;">സ്ഥലം</th>
-                        <th style="border:1px solid #ddd; padding:5px;">റീമാർക്</th>
+                        <th style="border:1px solid #ddd;padding:4px;">#</th>
+                        <th style="border:1px solid #ddd;padding:4px;">No</th>
+                        <th style="border:1px solid #ddd;padding:4px;">പേര്</th>
+                        <th style="border:1px solid #ddd;padding:4px;">പിതാവ്</th>
+                        <th style="border:1px solid #ddd;padding:4px;">ബന്ധം</th>
+                        <th style="border:1px solid #ddd;padding:4px;">ലിംഗം</th>
+                        <th style="border:1px solid #ddd;padding:4px;">DOB</th>
+                        <th style="border:1px solid #ddd;padding:4px;">വയസ്സ്</th>
+                        <th style="border:1px solid #ddd;padding:4px;">വൈ/സ്ഥ</th>
+                        <th style="border:1px solid #ddd;padding:4px;">മേഖല</th>
+                        <th style="border:1px solid #ddd;padding:4px;">ജോലി</th>
+                        <th style="border:1px solid #ddd;padding:4px;">Mobile</th>
+                        <th style="border:1px solid #ddd;padding:4px;">Blood</th>
+                        <th style="border:1px solid #ddd;padding:4px;">ആരോഗ്യം</th>
+                        <th style="border:1px solid #ddd;padding:4px;">മത.വിദ്യ</th>
+                        <th style="border:1px solid #ddd;padding:4px;">ഭൗ.വിദ്യ</th>
+                        <th style="border:1px solid #ddd;padding:4px;">Skills</th>
+                        <th style="border:1px solid #ddd;padding:4px;">യത്തീം</th>
+                        <th style="border:1px solid #ddd;padding:4px;">സ്ഥലം</th>
+                        <th style="border:1px solid #ddd;padding:4px;">Remarks</th>
                     </tr>
                 </thead>
                 <tbody>${memberRows}</tbody>
             </table>
-            ${val(f.remarks) ? `<p style="margin-top:12px;"><b>കുറിപ്പ്:</b> ${f.remarks}</p>` : ''}
-            <p style="text-align:right; color:#999; font-size:9px; margin-top:16px;">
+            ${val(f.remarks) ? `<p style="margin-top:10px;"><b>കുറിപ്പ്:</b> ${f.remarks}</p>` : ''}
+            <p style="text-align:right;color:#999;font-size:9px;margin-top:14px;">
                 Generated: ${new Date().toLocaleDateString('ml-IN')}
             </p>
         </div>`;
@@ -934,53 +911,65 @@
         html2pdf().set({
             margin: 8,
             filename: `Mahall_${f.houseName || f.houseNumber || 'Family'}.pdf`,
-            html2canvas: { scale: 2 },
+            html2canvas: { scale: 2, useCORS: true },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
         }).from(pdfEl).save();
     };
 
     /* ── Print ── */
+    // ✅ Uses window.allFamilies so it works from global onclick
     window.printFamily = (id) => {
-        const f = allFamilies.find(x => x.id === id);
-        if (!f) return;
+        const f = window.allFamilies.find(x => x.id === id);
+        if (!f) { alert('ഡേറ്റ കണ്ടെത്തിയില്ല'); return; }
         const members = f.members || [];
         const win = window.open('', '_blank');
-        win.document.write(`<html><head><title>Print - ${disp(f.houseName)}</title>
+        if (!win) { alert('Popup blocked. Please allow popups for this site.'); return; }
+        win.document.write(`<!DOCTYPE html><html><head><title>Print - ${disp(f.houseName)}</title>
+        <meta charset="UTF-8">
         <style>
             body { font-family: Arial, sans-serif; font-size: 12px; padding: 20px; }
             table { border-collapse: collapse; width: 100%; font-size: 10px; }
-            th, td { border: 1px solid #ccc; padding: 5px 8px; }
-            th { background: #f0f0f0; }
-            h2 { margin: 0; }
+            th, td { border: 1px solid #ccc; padding: 5px 7px; }
+            th { background: #f0f0f0; text-align: left; }
+            h2 { margin: 0; font-size: 16px; }
+            .header { text-align: center; border-bottom: 2px solid #10b981; padding-bottom: 10px; margin-bottom: 14px; }
+            .info { margin-bottom: 12px; line-height: 2; }
+            @media print { body { padding: 0; } }
         </style></head><body>
-        <div style="text-align:center; border-bottom:2px solid #10b981; padding-bottom:10px; margin-bottom:15px;">
+        <div class="header">
             <h2>EARIAL MAHALLU MUSLIM JAMA-ATH</h2>
             <p>${disp(f.houseName)} — # ${disp(f.houseNumber)} — ${disp(f.place)}</p>
         </div>
-        <p><b>ഗൃഹ നാഥൻ/നാഥ:</b> ${disp(f.Name)} &nbsp;&nbsp; <b>മൊബൈൽ:</b> ${disp(f.mobile)} &nbsp;&nbsp; <b>വൈ/ആ:</b> ${disp(f.whatsapp)} &nbsp;&nbsp; <b>റേഷൻ:</b> ${disp(f.rationCard)} &nbsp;&nbsp; <b>താമസം:</b> ${disp(f.veed)}</p>
-        <br>
+        <div class="info">
+            <b>ഗൃഹ നാഥൻ/നാഥ:</b> ${disp(f.Name)} &nbsp;&nbsp;
+            <b>മൊബൈൽ:</b> ${disp(f.mobile)} &nbsp;&nbsp;
+            <b>വൈ/ആ:</b> ${disp(f.whatsapp)} &nbsp;&nbsp;
+            <b>റേഷൻ:</b> ${disp(f.rationCard)} &nbsp;&nbsp;
+            <b>താമസം:</b> ${disp(f.veed)}
+        </div>
         <table>
             <thead><tr>
                 <th>#</th><th>No</th><th>പേര്</th><th>പിതാവ്</th><th>ബന്ധം</th><th>ലിംഗം</th>
                 <th>DOB</th><th>വയസ്സ്</th><th>വൈ/സ്ഥ</th><th>മേഖല</th><th>ജോലി</th>
-                <th>Mobile</th><th>Blood</th><th>ആരോഗ്യം</th><th>മത.വിദ്യ</th><th>ഭൗ.വിദ്യ</th><th>സ്കിൽസ്</th><th>യത്തീം</th><th>സ്ഥലം</th><th>റീമാർക്</th>
+                <th>Mobile</th><th>Blood</th><th>ആരോഗ്യം</th><th>മത.വിദ്യ</th><th>ഭൗ.വിദ്യ</th>
+                <th>Skills</th><th>യത്തീം</th><th>സ്ഥലം</th><th>Remarks</th>
             </tr></thead>
             <tbody>
-            ${members.map((m,i) => `<tr>
-                <td>${i+1}</td>
-                <td>${disp(m.no)}</td>
-                <td>${disp(m.name)}</td><td>${disp(m.father)}</td><td>${disp(m.relation)}</td>
-                <td>${disp(m.gender)}</td><td>${disp(m.dob)}</td><td>${disp(m.age)}</td>
-                <td>${disp(m.marital)}</td><td>${disp(m.sector)}</td><td>${disp(m.job)}</td>
-                <td>${disp(m.mobile)}</td><td>${disp(m.blood)}</td><td>${disp(m.health)}</td>
-                <td>${disp(m.eduRel)}</td><td>${disp(m.eduSec)}</td><td>${disp(m.skills)}</td><td>${disp(m.orphan)}</td><td>${disp(m.place)}</td><td>${disp(m.remarks)}</td>
+            ${members.map((m, i) => `<tr>
+                <td>${i+1}</td><td>${disp(m.no)}</td><td>${disp(m.name)}</td>
+                <td>${disp(m.father)}</td><td>${disp(m.relation)}</td><td>${disp(m.gender)}</td>
+                <td>${disp(m.dob)}</td><td>${disp(m.age)}</td><td>${disp(m.marital)}</td>
+                <td>${disp(m.sector)}</td><td>${disp(m.job)}</td><td>${disp(m.mobile)}</td>
+                <td>${disp(m.blood)}</td><td>${disp(m.health)}</td><td>${disp(m.eduRel)}</td>
+                <td>${disp(m.eduSec)}</td><td>${disp(m.skills)}</td><td>${disp(m.orphan)}</td>
+                <td>${disp(m.place)}</td><td>${disp(m.remarks)}</td>
             </tr>`).join('')}
             </tbody>
         </table>
         ${val(f.remarks) ? `<p style="margin-top:12px;"><b>കുറിപ്പ്:</b> ${f.remarks}</p>` : ''}
+        <script>window.onload = () => { window.print(); window.onafterprint = () => window.close(); };<\/script>
         </body></html>`);
         win.document.close();
-        win.print();
     };
 
 </script>
