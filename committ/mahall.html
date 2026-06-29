@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EARIAL MAHALLU MUSLIM JAMA-ATH Census</title>
+    <style>
+        :root { --primary-color: #2c3e50; --secondary-color: #27ae60; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f4f7f6; margin: 0; padding: 10px; }
+        .container { max-width: 1200px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        
+        .header { text-align: center; border-bottom: 3px solid var(--primary-color); margin-bottom: 25px; padding-bottom: 15px; }
+        .header h1 { margin: 0; color: var(--primary-color); font-size: clamp(18px, 4vw, 24px); text-transform: uppercase; }
+        .header p { margin: 5px 0 0; color: #555; font-size: 14px; font-weight: bold; }
+        
+        .section-title { background: #eee; padding: 10px; margin-top: 20px; border-left: 5px solid var(--secondary-color); font-weight: bold; border-radius: 4px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 15px; }
+        
+        input, select, textarea { padding: 10px; border: 1px solid #ccc; border-radius: 6px; width: 100%; box-sizing: border-box; font-size: 14px; }
+        
+        /* ടേബിൾ സ്റ്റൈലുകൾ - കോളങ്ങളുടെ വിഡ്ത്ത് ക്രമീകരിച്ചത് */
+        .table-container { width: 100%; overflow-x: auto; margin-top: 20px; border: 1px solid #ddd; border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; min-width: 1900px; background: #fff; table-layout: fixed; }
+        th, td { border: 1px solid #ddd; padding: 5px; text-align: left; }
+        th { background-color: var(--primary-color); color: white; font-size: 13px; padding: 10px; }
+
+        /* കോളം വിഡ്ത്ത് നിയന്ത്രണങ്ങൾ */
+        .col-id { width: 70px; }      /* അംഗത്വ നമ്പർ */
+        .col-name { width: 250px; }   /* പേര് */
+        .col-father { width: 220px; } /* പിതാവ് */
+        .col-gender { width: 120px; } /* ലിംഗം */
+        .col-age { width: 70px; }      /* വയസ്സ് */
+        .col-common { width: 150px; } /* മറ്റുള്ളവ */
+        .col-remove { width: 50px; }   /* ഡിലീറ്റ് ബട്ടൺ */
+
+        td input, td select { border: none; background: transparent; }
+
+        .btn-add { background: var(--primary-color); color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; margin-top: 15px; font-weight: bold; }
+        .btn-save { background: var(--secondary-color); color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 18px; margin-top: 30px; font-weight: bold; }
+        
+        /* സേവ് ചെയ്ത കുടുംബങ്ങളുടെ ലിസ്റ്റ് */
+        .search-box { margin-top: 40px; padding: 20px; background: #e9ecef; border-radius: 8px; }
+        .data-list { margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
+        .family-card { background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .btn-edit { background: #3498db; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-right: 5px; }
+        .btn-delete { background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>EARIAL MAHALLU MUSLIM JAMA-ATH</h1>
+        <p>Reg.No: 361/86, Po. Muthuvadathoor, Kozhikode (Dist), Kerala - 673503</p>
+    </div>
+
+    <form id="censusForm">
+        <input type="hidden" id="editId">
+        <div class="section-title">മഹല്ല് / വീട് വിവരങ്ങൾ</div>
+        <div class="grid">
+            <input type="text" id="Name" placeholder="ഗൃഹ നാഥന്‍/നാഥ" required>
+            <input type="text" id="father" placeholder="പിതാവിന്‍റെ പേര്" required>
+            <input type="text" id="houseName" placeholder="കുടുംബ പേര് / വീട്ടുപേര്" required>
+            <input type="text" id="houseNumber" placeholder="മഹല്ല് വീട്ടുനമ്പർ">
+            <input type="text" id="place" placeholder="ഏരിയ / സ്ഥലം">
+            <input type="text" id="wardNumber" placeholder="പഞ്ചായത്ത് വാർഡ് & കെട്ടിട നമ്പർ">
+            <input type="tel" id="mobile" placeholder="മൊബൈൽ {SMS}" required>
+            <input type="tel" id="whatsapp" placeholder="വാട്‌സ്ആപ്പ്">
+            <select id="veed">
+                <option value="">താമസിക്കുന്ന സ്ഥലം</option>
+                <option value="സ്വന്തം">സ്വന്തം</option>
+                <option value="വാടക">വാടക</option>
+                <option value="കോളനി">കോളനി</option>
+                <option value="പുറംപോക്ക്">പുറംപോക്ക്</option>
+            </select>
+            <select id="rationCard">
+                <option value="">റേഷൻ കാർഡ് വിഭാഗം</option>
+                <option value="BPL">BPL</option>
+                <option value="APL">APL</option>
+                <option value="AAY">AAY</option>
+                <option value="OTHER">OTHER</option>
+            </select>
+        </div>
+
+        <div class="section-title">അംഗങ്ങളുടെ വിവരങ്ങൾ</div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="col-id">അംഗത്ത നമ്പർ</th>
+                        <th class="col-name">പേര്</th>
+                        <th class="col-father">പിതാവിന്‍റെ പേര്</th>
+                        <th class="col-gender">ലിംഗം</th>
+                        <th class="col-common">ബന്ധം</th>
+                        <th class="col-common">ബ്ലഡ് ഗ്രൂപ്പ്</th>
+                        <th class="col-common">ജനന തീയ്യതി</th>
+                        <th class="col-age">വയസ്സ്</th>
+                        <th class="col-common">മൊബൈൽ</th>
+                        <th class="col-common">ശാരീരിക അവസ്ഥ</th>
+                        <th class="col-common">വൈവാഹിക അവസ്ഥ</th>
+                        <th class="col-common">ജോലി</th>
+                        <th class="col-common">ജോലി മേഖല</th>
+                        <th class="col-common">സ്ഥലം</th>
+                        <th class="col-common">മത വിദ്യാഭ്യാസം</th>
+                        <th class="col-common">ഭൗതിക വിദ്യാഭ്യാസം</th>
+                        <th class="col-common">സ്കിൽസ്</th>
+                        <th class="col-common">യത്തീം?</th>
+                        <th class="col-common">റീമാർക്</th>
+                        <th class="col-remove">X</th>
+                    </tr>
+                </thead>
+                <tbody id="memberRows"></tbody>
+            </table>
+        </div>
+        <button type="button" class="btn-add" onclick="addMemberRow()">+ അംഗത്തെ ചേർക്കുക</button>
+
+        <textarea id="remarks" placeholder="മറ്റ് വിവരങ്ങൾ (REMARKS)" style="margin-top: 20px; height: 80px;"></textarea>
+        <button type="submit" id="submitBtn" class="btn-save">വിവരങ്ങൾ ഫയർബേസിൽ സേവ് ചെയ്യുക</button>
+    </form>
+
+    <div class="search-box">
+        <div class="section-title">സേവ് ചെയ്ത കുടുംബങ്ങൾ</div>
+        <div class="grid" style="grid-template-columns: 1fr 1fr 1fr; margin-bottom: 15px;">
+            <input type="text" id="sN" placeholder="പേര് വെച്ച് തിരയുക..." onkeyup="filter()">
+            <input type="text" id="sH" placeholder="വീട്ടുപേര്..." onkeyup="filter()">
+            <input type="text" id="sNo" placeholder="വീട്ടുനമ്പർ..." onkeyup="filter()">
+        </div>
+        <div id="familyList" class="data-list"></div>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAoVl_v1w0LWWENZ68q7HA6PBD0HZluG9Y",
+        authDomain: "mahall-f0305.firebaseapp.com",
+        projectId: "mahall-f0305",
+        storageBucket: "mahall-f0305.firebasestorage.app",
+        messagingSenderId: "1094550689039",
+        appId: "1:1094550689039:web:98302a4c3f95cbaa005a7a"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    let families = [];
+
+    // അംഗത്തെ ചേർക്കുന്ന ഫംഗ്ഷൻ (കോളങ്ങൾ അറേഞ്ച് ചെയ്തത്)
+    window.addMemberRow = function(data = null) {
+        const tbody = document.getElementById('memberRows');
+        const id = Date.now() + Math.random();
+        tbody.insertAdjacentHTML('beforeend', `
+            <tr id="row-${id}">
+                <td class="col-id"><input type="text" class="m-no" value="${data?data.no:''}"></td>
+                <td class="col-name"><input type="text" class="m-name" required value="${data?data.name:''}"></td>
+                <td class="col-father"><input type="text" class="m-father" value="${data?data.father:''}"></td>
+                <td class="col-gender"><select class="m-gender"><option value="പുരുഷൻ" ${data?.gender==='പുരുഷൻ'?'selected':''}>പുരുഷൻ</option><option value="സ്ത്രീ" ${data?.gender==='സ്ത്രീ'?'selected':''}>സ്ത്രീ</option></select></td>
+                <td class="col-common"><input type="text" class="m-rel" value="${data?data.relation:''}"></td>
+                <td class="col-common"><input type="text" class="m-blood" value="${data?data.blood:''}"></td>
+                <td class="col-common"><input type="date" class="m-dob" value="${data?data.dob:''}"></td>
+                <td class="col-age"><input type="number" class="m-age" value="${data?data.age:''}"></td>
+                <td class="col-common"><input type="tel" class="m-mobile" value="${data?data.mobile:''}"></td>
+                <td class="col-common"><input type="text" class="m-health" value="${data?data.health:''}"></td>
+                <td class="col-common"><input type="text" class="m-marital" value="${data?data.marital:''}"></td>
+                <td class="col-common"><input type="text" class="m-job" value="${data?data.job:''}"></td>
+                <td class="col-common"><input type="text" class="m-sector" value="${data?data.sector:''}"></td>
+                <td class="col-common"><input type="text" class="m-place" value="${data?data.place:''}"></td>
+                <td class="col-common"><input type="text" class="m-e-rel" value="${data?data.eduRel:''}"></td>
+                <td class="col-common"><input type="text" class="m-e-sec" value="${data?data.eduSec:''}"></td>
+                <td class="col-common"><input type="text" class="m-skills" value="${data?data.skills:''}"></td>
+                <td class="col-common"><select class="m-orphan"><option value="No" ${data?.orphan==='No'?'selected':''}>No</option><option value="Yes" ${data?.orphan==='Yes'?'selected':''}>Yes</option></select></td>
+                <td class="col-common"><input type="text" class="m-remarks" value="${data?data.remarks:''}"></td>
+                <td class="col-remove"><button type="button" class="btn-remove" onclick="document.getElementById('row-${id}').remove()">X</button></td>
+            </tr>`);
+    }
+
+    async function loadData() {
+        const q = query(collection(db, "MahallCensusData"), orderBy("timestamp", "desc"));
+        const snap = await getDocs(q);
+        families = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        render(families);
+    }
+
+    function render(data) {
+        const list = document.getElementById('familyList');
+        list.innerHTML = '';
+        data.forEach(f => {
+            list.innerHTML += `<div class="family-card">
+                <p><b>${f.houseName}</b> (${f.houseNumber||'No No.'})</p>
+                <p>ഗൃഹനാഥൻ: ${f.Name}</p>
+                <button class="btn-edit" onclick="editFamily('${f.id}')">എഡിറ്റ്</button>
+                <button class="btn-delete" onclick="deleteFamily('${f.id}')">ഡിലീറ്റ്</button>
+            </div>`;
+        });
+    }
+
+    window.filter = () => {
+        const n = document.getElementById('sN').value.toLowerCase();
+        const h = document.getElementById('sH').value.toLowerCase();
+        const no = document.getElementById('sNo').value.toLowerCase();
+        render(families.filter(f => f.Name.toLowerCase().includes(n) && f.houseName.toLowerCase().includes(h) && (f.houseNumber||'').includes(no)));
+    }
+
+    window.deleteFamily = async (id) => { if(confirm("ഡിലീറ്റ് ചെയ്യണോ?")) { await deleteDoc(doc(db, "MahallCensusData", id)); loadData(); } }
+
+    window.editFamily = (id) => {
+        const f = families.find(x => x.id === id);
+        document.getElementById('editId').value = id;
+        document.getElementById('Name').value = f.Name;
+        document.getElementById('father').value = f.father;
+        document.getElementById('houseName').value = f.houseName;
+        document.getElementById('houseNumber').value = f.houseNumber;
+        document.getElementById('place').value = f.place;
+        document.getElementById('wardNumber').value = f.ward;
+        document.getElementById('mobile').value = f.mobile;
+        document.getElementById('whatsapp').value = f.whatsapp;
+        document.getElementById('veed').value = f.veed;
+        document.getElementById('rationCard').value = f.rationCard;
+        document.getElementById('remarks').value = f.remarks;
+        document.getElementById('memberRows').innerHTML = '';
+        f.members.forEach(m => addMemberRow(m));
+        window.scrollTo(0,0);
+        document.getElementById('submitBtn').innerText = "മാറ്റങ്ങൾ സേവ് ചെയ്യുക";
+    }
+
+    document.getElementById('censusForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        const eId = document.getElementById('editId').value;
+        btn.disabled = true;
+
+        const members = [];
+        document.querySelectorAll('#memberRows tr').forEach(tr => {
+            members.push({
+                no: tr.querySelector('.m-no').value,
+                name: tr.querySelector('.m-name').value,
+                father: tr.querySelector('.m-father').value,
+                gender: tr.querySelector('.m-gender').value,
+                relation: tr.querySelector('.m-rel').value,
+                blood: tr.querySelector('.m-blood').value,
+                dob: tr.querySelector('.m-dob').value,
+                age: tr.querySelector('.m-age').value,
+                mobile: tr.querySelector('.m-mobile').value,
+                health: tr.querySelector('.m-health').value,
+                marital: tr.querySelector('.m-marital').value,
+                job: tr.querySelector('.m-job').value,
+                sector: tr.querySelector('.m-sector').value,
+                place: tr.querySelector('.m-place').value,
+                eduRel: tr.querySelector('.m-e-rel').value,
+                eduSec: tr.querySelector('.m-e-sec').value,
+                skills: tr.querySelector('.m-skills').value,
+                orphan: tr.querySelector('.m-orphan').value,
+                remarks: tr.querySelector('.m-remarks').value
+            });
+        });
+
+        const d = { Name: document.getElementById('Name').value, father: document.getElementById('father').value, houseName: document.getElementById('houseName').value, houseNumber: document.getElementById('houseNumber').value, place: document.getElementById('place').value, ward: document.getElementById('wardNumber').value, mobile: document.getElementById('mobile').value, whatsapp: document.getElementById('whatsapp').value, veed: document.getElementById('veed').value, rationCard: document.getElementById('rationCard').value, remarks: document.getElementById('remarks').value, members: members, timestamp: new Date() };
+
+        try {
+            if(eId) await updateDoc(doc(db, "MahallCensusData", eId), d);
+            else await addDoc(collection(db, "MahallCensusData"), d);
+            location.reload();
+        } catch (e) { btn.disabled = false; }
+    });
+
+    loadData();
+    addMemberRow();
+</script>
+</body>
+</html>
